@@ -7,8 +7,6 @@ use Inertia\Middleware;
 use App\Models\Notification;
 use App\Models\Contact;
 use App\Models\Leave;
-use App\Models\Scholarship;
-use App\Models\Inquiry;
 use App\Models\EmployeeSetting;
 use Illuminate\Support\Facades\DB;
 
@@ -52,8 +50,6 @@ class HandleInertiaRequests extends Middleware
                         'last_name' => $request->user()->last_name,
                         'email' => $request->user()->email,
                         'super' => $request->user()->owner,
-                        'can_approve' => $request->user()->can_approve,
-                        'can_accept' => $request->user()->can_accept,
                         'account' => [
                             'id' => $request->user()->account->id,
                             'name' => $request->user()->account->name,
@@ -82,13 +78,10 @@ class HandleInertiaRequests extends Middleware
             'notifiable' => function () use ($request) {
                 return [
                     'count' => Notification::where('read_at', null)->count(),
-                    'tickets' => Inquiry::where('replied', null)->count(),
-                    'scholarships' => Scholarship::whereStatus('Pending')->count(),
-                    'leaves' => auth()->check() ? Leave::where('user_id', auth()->user()->id)->where('approved_for', null)->where('disapproved_due_to', null)->where('recommendation', null)->count() : null,
+                    'leaves' => Leave::where('approved_for', null)->where('disapproved_due_to', null)->where('recommendation', null)->count(),
                     'notifications' => DB::table('contacts')
                                         ->join('notifications', 'contacts.id', '=', 'notifications.contact_id')
                                         ->select('contacts.first_name', 'contacts.last_name', 'contacts.photo', 'notifications.*')
-                                        ->orderBy('notifications.created_at', 'DESC')
                                         ->where('read_at', null)
                                         ->get(),
                 ];

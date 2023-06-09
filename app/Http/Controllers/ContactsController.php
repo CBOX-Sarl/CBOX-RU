@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Children;
-use App\Models\Office;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
@@ -19,7 +18,7 @@ class ContactsController extends Controller
         return Inertia::render('Contacts/Index', [
             'filters' => Request::all('search', 'trashed'),
             'contacts' => Auth::user()->account->contacts()
-                ->with('office')
+                ->with('organization')
                 ->orderByName()
                 ->filter(Request::only('search', 'trashed'))
                 ->paginate()
@@ -35,14 +34,12 @@ class ContactsController extends Controller
                         'department' => $contact->department,
                         'status_of_appointment' => $contact->status_of_appointment,
                         'position' => $contact->position,
-                        'designation' => $contact->designation,
                         'photo' => $contact->photo,
                         'status' => $contact->status,
                         'deleted_at' => $contact->deleted_at,
-                        'office' => $contact->office,
+                        'organization' => $contact->organization ? $contact->organization->only('name') : null,
                     ];
                 }),
-            'offices' => Office::get(),
         ]);
     }
 
@@ -62,17 +59,15 @@ class ContactsController extends Controller
     {
         Auth::user()->account->contacts()->create(
             Request::validate([
-                'office_id' => ['required'],
                 'first_name' => ['required', 'max:25', 'min:2'],
                 'last_name' => ['required', 'max:25', 'min:2'],
                 'middle_name' => ['required', 'max:25', 'min:2'],
-                'email' => ['required', 'max:50', 'email', 'unique:contacts'],
+                'email' => ['required', 'max:50', 'email'],
                 'phone' => ['required', 'min:11'],
                 'name_extension' => ['nullable', 'max:4'],
                 'telephone' => ['nullable', 'max:25', 'regex:/^[0-9+]+$/'],
                 'department' => ['required', 'max:50'],
                 'position' => ['required', 'max:50'],
-                'designation' => ['required', 'max:50'],
                 'status_of_appointment' => ['required', 'max:50'],
                 'sex' => ['required', 'max:10', 'min:4'],
                 'height' => ['required', 'max:3', 'regex:/^[0-9.]+$/'],
@@ -133,7 +128,6 @@ class ContactsController extends Controller
                 'sex' => $contact->sex,
                 'civil_status' => $contact->civil_status,
                 'department' => $contact->department,
-                'designation' => $contact->designation,
                 'position' => $contact->position,
                 'status_of_appointment' => $contact->status_of_appointment,
                 'height' => $contact->height,
@@ -169,34 +163,30 @@ class ContactsController extends Controller
             ],
             'family' => $family,
             'childrens' => !empty($family->id) ? Children::where('background_id', $family->id)
-                ->orderBy('created_at', 'DESC')->get() : null,
+                ->get() : null,
             'organizations' => Auth::user()->account->organizations()
                 ->orderBy('name')
                 ->get()
                 ->map
                 ->only('id', 'name'),
             'educations' => $contact->educations()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'experiences' => $contact->experiences()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'eligibilities' => $contact->services()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'volunteers' => $contact->volunteers()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'trainings' => $contact->trainings()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'skills' => $contact->skills()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'recognitions' => $contact->recognitions()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'memberships' => $contact->memberships()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
             'documents' => $contact->documents()
-                ->orderBy('created_at', 'DESC')->get(),
-            'references' => $contact->reference()
-                ->orderBy('created_at', 'DESC')->get(),
-            'governments' => $contact->government()
-                ->orderBy('created_at', 'DESC')->get(),
+                ->get(),
         ]);
     }
 
@@ -208,7 +198,6 @@ class ContactsController extends Controller
     {
         $contact->update(
             Request::validate([
-                'office_id' => ['required'],
                 'first_name' => ['required', 'max:25', 'min:2'],
                 'last_name' => ['required', 'max:25', 'min:2'],
                 'middle_name' => ['required', 'max:25', 'min:2'],
@@ -218,7 +207,6 @@ class ContactsController extends Controller
                 'telephone' => ['nullable', 'max:25', 'regex:/^[0-9+]+$/'],
                 'department' => ['required', 'max:50'],
                 'position' => ['required', 'max:50'],
-                'designation' => ['required', 'max:50'],
                 'status_of_appointment' => ['required', 'max:50'],
                 'sex' => ['required', 'max:10', 'min:4'],
                 'height' => ['required', 'max:3', 'regex:/^[0-9.]+$/'],

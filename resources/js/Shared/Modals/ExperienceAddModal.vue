@@ -31,8 +31,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Name of Company
-                        <span class="text-red-600">*</span></label
+                        >Name of Company</label
                       >
                       <input
                         autofocus="true"
@@ -50,15 +49,12 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Position <span class="text-red-600">*</span></label
-                      >
-                      <v-selectize
+                      <label class="form-label font-bold">Position</label>
+                      <input
+                        autofocus="true"
                         class="form-input block w-full"
-                        :options="options"
-                        :limit="10"
+                        placeholder="Enter position"
                         v-model="form.experiences_position"
-                        placeholder="Type and select a position"
                       />
                       <div
                         v-if="$page.errors.experiences_position !== null"
@@ -72,7 +68,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Monthly Salary
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -92,7 +88,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Salary Grade
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -112,8 +108,8 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Inclusive Date <span class="text-red-600">*</span>
-                        <span class="font-medium">&nbsp;</span></label
+                        >Inclusive Date
+                        <span class="font-medium">(From)</span></label
                       >
                       <v-date-picker v-model="form.experiences_from">
                         <template v-slot="{ inputValue, togglePopover }">
@@ -139,8 +135,8 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Inclusive Date <span class="text-red-600">*</span>
-                        <span class="font-medium">&nbsp;</span></label
+                        >Inclusive Date
+                        <span class="font-medium">(To)</span></label
                       >
                       <v-date-picker v-model="form.experiences_to">
                         <template v-slot="{ inputValue, togglePopover }">
@@ -166,25 +162,36 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Status of Appoinment
-                        <span class="text-red-600">*</span></label
+                        >Status of Appoinment</label
                       >
-                      <select
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.experiences_status_of_appointment"
-                        class="form-input block w-full appearance-none"
-                      >
-                        <option disabled selected>Please select status</option>
-                        <option value="Job Order">Job Order</option>
-                        <option value="Contractual">Contractual</option>
-                        <option value="Permanent">Permanent</option>
-                        <option value="Full-time">Full-time</option>
-                        <option value="Casual">Casual</option>
-                        <option value="Part-time">Part-time</option>
-                        <option value="Temporary">Temporary</option>
-                        <option value="Contract of Service">
-                          Contract of Service
-                        </option>
-                      </select>
+                        value="Job Order/Contractual"
+                      />
+                      Job Order/Contractual
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.experiences_status_of_appointment"
+                        value="Permanent/Regular"
+                      />
+                      Permanent/Regular
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.experiences_status_of_appointment"
+                        value="Full-time"
+                      />
+                      Full-time
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.experiences_status_of_appointment"
+                        value="Part-time"
+                      />
+                      Part-time
                       <div
                         v-if="
                           $page.errors.experiences_status_of_appointment !==
@@ -205,8 +212,7 @@
                         :labels="{ checked: 'Yes', unchecked: 'No' }"
                         v-model="form.experiences_government"
                       /><span class="mx-2 font-semibold"
-                        >Is this a government service?
-                        <span class="text-red-600">*</span></span
+                        >Is this a government service?</span
                       >
                       <div
                         v-if="$page.errors.experiences_government !== null"
@@ -250,17 +256,12 @@
 
 <script>
 import { mask } from "vue-the-mask";
-import VSelectize from "@isneezy/vue-selectize";
 import { ToggleButton } from "vue-js-toggle-button";
-import vSelect from "vue-select";
 import moment from "moment";
-import jobs from "./jobs.json";
 
 export default {
   components: {
     ToggleButton,
-    VSelectize,
-    vSelect,
   },
   props: {
     modal: {
@@ -271,10 +272,8 @@ export default {
     showing: Boolean,
   },
   directives: { mask },
-  name: "single-item-select",
   data() {
     return {
-      options: jobs,
       sending: false,
       form: {
         contact_id: this.employee.id,

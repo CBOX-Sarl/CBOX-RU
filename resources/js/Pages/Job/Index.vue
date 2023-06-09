@@ -30,7 +30,7 @@
         </button>
       </div>
     </div>
-    <div class="shadow overflow-auto border-b border-gray-200 sm:rounded-lg">
+    <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-white">
           <tr class="transition-all hover:bg-gray-100 hover:shadow-lg">
@@ -38,27 +38,20 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Position Title
+              Position
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Plantilla Item No.
+              Department
             </th>
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Salary/Pay Grade
+              Salary Grade
             </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Monthly Salary
-            </th>
-
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
@@ -87,20 +80,8 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Place of Assignment
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
               Action
             </th>
-            <!-- <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Form
-            </th> -->
           </tr>
         </thead>
         <tbody class="bg-white divide-y divide-gray-200">
@@ -126,6 +107,9 @@
                 <div v-else class="text-sm text-gray-500">
                   No data available
                 </div>
+                <div class="capitalize text-sm text-blue-500">
+                  {{ job.item_number }}
+                </div>
               </inertia-link>
             </td>
             <td
@@ -136,8 +120,8 @@
                 :href="route('jobs')"
                 tabindex="-1"
               >
-                <div class="capitalize" v-if="job.item_number !== null">
-                  {{ job.item_number }}
+                <div class="capitalize" v-if="job.department !== null">
+                  {{ job.department }}
                 </div>
                 <div v-else class="text-sm text-gray-500">
                   No data available
@@ -168,28 +152,13 @@
                 :href="route('jobs')"
                 tabindex="-1"
               >
-                <div v-if="job.monthly_salary !== null">
-                  {{ currency(job.monthly_salary) }}
-                </div>
-                <div v-else class="text-sm text-gray-500">
-                  No data available
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-4 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                :href="route('jobs')"
-                tabindex="-1"
-              >
-                <div class="normal-case text-justify" v-if="job.education !== null">
+                <div class="capitalize" v-if="job.education !== null">
                   {{ job.education }}
                 </div>
                 <div v-else class="text-sm text-gray-700">None required</div>
               </inertia-link>
             </td>
+
             <td
               class="px-6 py-4 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
             >
@@ -198,7 +167,7 @@
                 :href="route('jobs')"
                 tabindex="-1"
               >
-                <div class="normal-case text-justify" v-if="job.experience !== null">
+                <div class="capitalize" v-if="job.experience !== null">
                   {{ job.experience }}
                 </div>
                 <div v-else class="text-sm text-gray-700">None required</div>
@@ -212,7 +181,7 @@
                 :href="route('jobs')"
                 tabindex="-1"
               >
-                <div class="normal-case text-justify" v-if="job.training !== null">
+                <div class="capitalize" v-if="job.training !== null">
                   {{ job.training }}
                 </div>
                 <div v-else class="text-sm text-gray-700">None required</div>
@@ -226,26 +195,10 @@
                 :href="route('jobs')"
                 tabindex="-1"
               >
-                <div class="normal-case text-justify" v-if="job.eligibility !== null">
+                <div class="capitalize" v-if="job.eligibility !== null">
                   {{ job.eligibility }}
                 </div>
                 <div v-else class="text-sm text-gray-700">None required</div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-4 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                :href="route('jobs')"
-                tabindex="-1"
-              >
-                <div class="capitalize" v-if="job.department !== null">
-                  {{ job.department }}
-                </div>
-                <div v-else class="text-sm text-gray-500">
-                  No data available
-                </div>
               </inertia-link>
             </td>
             <td
@@ -270,15 +223,6 @@
                 >♻️ Restore</span
               >
             </td>
-            <!-- <td
-              class="px-1 py-4 whitespace-nowrap text-sm font-medium transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <span
-                @click="showEditModal(job)"
-                class="text-indigo-600 cursor-pointer hover:text-indigo-900"
-                >👁️ View</span
-              >
-            </td> -->
           </tr>
         </tbody>
         <tr v-if="jobs.data.length === 0">
@@ -385,14 +329,6 @@ export default {
     },
     reset() {
       this.form = mapValues(this.form, () => null);
-    },
-    currency(price, sign = "₱ ") {
-      const pieces = parseFloat(price).toFixed(2).split("");
-      let ii = pieces.length - 3;
-      while ((ii -= 3) > 0) {
-        pieces.splice(ii, 0, ",");
-      }
-      return sign + pieces.join("");
     },
   },
 };

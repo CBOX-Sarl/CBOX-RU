@@ -68,12 +68,6 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Note
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
               Action
             </th>
           </tr>
@@ -167,63 +161,19 @@
                   v-if="leave.recommendation === null"
                   class="normal-case font-semibold text-yellow-600"
                 >
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-yellow-600 bg-yellow-300 rounded-full"
-                    >Pending</span
-                  >
+                  Pending
                 </div>
                 <div
                   v-else-if="leave.recommendation === 'Approved'"
                   class="normal-case font-semibold text-green-600"
                 >
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-green-600 bg-green-300 rounded-full"
-                    >Approved</span
-                  >
+                  Approved
                 </div>
                 <div v-else class="normal-case font-semibold text-red-600">
-                  <div class="flex">
-                    <span
-                      class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-600 bg-red-300 rounded-full"
-                      >Disapproved</span
-                    >
-                    <span class="text-red-600" :title="leave.disapproved_due_to"
-                      ><svg
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
-                        ></path></svg
-                    ></span>
-                  </div>
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 w-100 py-2 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('employee.leave')"
-                class="px-6 py-2 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div
-                  v-if="leave.type_of_leave === 'Vacation'"
-                  class="w-100 normal-case font-normal w-48"
-                >
-                  Submit form to HRMS 5 days<br>before the leave.
-                </div>
-                <div
-                  v-else-if="leave.type_of_leave === 'Sick'"
-                  class="w-100 normal-case font-normal w-48"
-                >
-                  Submit form to HRMS within<br>7 days upon reinstatement.
+                  Disapproved -
+                  <span class="text-gray-800 normal-case">{{
+                    leave.disapproved_due_to
+                  }}</span>
                 </div>
               </inertia-link>
             </td>
@@ -244,12 +194,7 @@
               <span
                 v-else
                 class="text-gray-600 inline-flex mt-0 cursor-pointer hover:text-blue-600"
-              >
-                <inertia-link
-                  :href="route('leaves.form.employee.new', leave.id)"
-                  class="text-indigo-600 inline-flex mt-0 cursor-pointer hover:text-indigo-900"
-                  >👁️‍🗨️ View Form</inertia-link
-                ></span
+                >Unavailable</span
               >
             </td>
           </tr>
@@ -327,10 +272,8 @@ export default {
       this.form = mapValues(this.form, () => null);
     },
     format(value) {
-      if (value && moment(value, moment.ISO_8601, true).isValid()) {
+      if (value) {
         return moment(String(value)).format("MMMM D, YYYY");
-      } else {
-        return value;
       }
     },
     oldestDate(array) {

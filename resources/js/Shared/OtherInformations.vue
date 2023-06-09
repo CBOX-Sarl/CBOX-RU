@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-8 md:grid-cols-3 xl:grid-cols-3">
+  <div class="grid gap-8 mb-8 md:grid-cols-3 xl:grid-cols-3">
     <div
       class="flex flex-col mt-6 transition duration-500 ease-in-out transform hover:-translate-y-1"
     >
@@ -14,7 +14,6 @@
               </h5>
               <button
                 @click="showSkillModal"
-                v-if="$page.employee.user !== null"
                 class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
               >
                 ➕ Add
@@ -30,7 +29,6 @@
                     Skill and Hobbies
                   </th>
                   <th
-                    v-if="$page.employee.user !== null"
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
@@ -49,10 +47,7 @@
                       {{ skill.skills_name }}
                     </div>
                   </td>
-                  <td
-                    v-if="$page.employee.user !== null"
-                    class="px-1 py-4 whitespace-nowrap text-sm font-medium"
-                  >
+                  <td class="px-1 py-4 whitespace-nowrap text-sm font-medium">
                     <span
                       @click="showEditSkillModal(skill)"
                       class="text-indigo-600 cursor-pointer hover:text-indigo-900"
@@ -93,7 +88,6 @@
               </h5>
               <button
                 @click="showRecognitionModal"
-                v-if="$page.employee.user !== null"
                 class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
               >
                 ➕ Add
@@ -109,7 +103,6 @@
                     Recognition
                   </th>
                   <th
-                    v-if="$page.employee.user !== null"
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
@@ -128,10 +121,7 @@
                       {{ recognition.recognitions_name }}
                     </div>
                   </td>
-                  <td
-                    v-if="$page.employee.user !== null"
-                    class="px-1 py-4 whitespace-nowrap text-sm font-medium"
-                  >
+                  <td class="px-1 py-4 whitespace-nowrap text-sm font-medium">
                     <span
                       @click="showEditRecognitionModal(recognition)"
                       class="text-indigo-600 cursor-pointer hover:text-indigo-900"
@@ -177,7 +167,6 @@
               </h5>
               <button
                 @click="showMembershipModal"
-                v-if="$page.employee.user !== null"
                 class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
               >
                 ➕ Add
@@ -193,7 +182,6 @@
                     Organization
                   </th>
                   <th
-                    v-if="$page.employee.user !== null"
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
@@ -212,10 +200,7 @@
                       {{ membership.memberships_name }}
                     </div>
                   </td>
-                  <td
-                    v-if="$page.employee.user !== null"
-                    class="px-1 py-4 whitespace-nowrap text-sm font-medium"
-                  >
+                  <td class="px-1 py-4 whitespace-nowrap text-sm font-medium">
                     <span
                       @click="showEditMembershipModal(membership)"
                       class="text-indigo-600 cursor-pointer hover:text-indigo-900"

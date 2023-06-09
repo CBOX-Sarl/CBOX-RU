@@ -38,9 +38,24 @@
                 <form class="w-full max-w-lg pr-4 pt-5">
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Last Name <span class="text-red-600">*</span></label
+                      <label class="form-label font-bold">First Name</label>
+                      <input
+                        autofocus="true"
+                        class="form-input block w-full"
+                        placeholder="Enter first name"
+                        v-model="form.first_name"
+                      />
+                      <div
+                        v-if="$page.errors.first_name !== null"
+                        class="form-error"
                       >
+                        {{ $page.errors.first_name }}
+                      </div>
+                    </div>
+                  </div>
+                  <div class="flex flex-wrap -mx-3 mb-6">
+                    <div class="w-full px-3">
+                      <label class="form-label font-bold">Last Name</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -57,29 +72,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >First Name <span class="text-red-600">*</span></label
-                      >
-                      <input
-                        autofocus="true"
-                        class="form-input block w-full"
-                        placeholder="Enter first name"
-                        v-model="form.first_name"
-                      />
-                      <div
-                        v-if="$page.errors.first_name !== null"
-                        class="form-error"
-                      >
-                        {{ $page.errors.first_name }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Middle Name <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Middle Name</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -98,7 +91,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Name Extension
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -116,10 +109,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Email Address
-                        <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Email Address</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -136,9 +126,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Phone <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Phone</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -159,7 +147,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Telephone
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -177,23 +165,13 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Department/Office
-                        <span class="text-red-600">*</span></label
-                      >
-                      <select
-                        v-model="form.department"
+                      <label class="form-label font-bold">Department</label>
+                      <input
+                        autofocus="true"
                         class="form-input block w-full"
-                      >
-                        <option selected disabled>Please select office</option>
-                        <option
-                          v-for="office in offices"
-                          :value="office.id"
-                          :key="office.id"
-                        >
-                          {{ office.office_name }}
-                        </option>
-                      </select>
+                        placeholder="Enter department"
+                        v-model="form.department"
+                      />
                       <div
                         v-if="$page.errors.department !== null"
                         class="form-error"
@@ -204,21 +182,12 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Position <span class="text-red-600">*</span></label
-                      >
-                      <!-- <input
+                      <label class="form-label font-bold">Position</label>
+                      <input
                         autofocus="true"
                         class="form-input block w-full"
                         placeholder="Enter position"
                         v-model="form.position"
-                      /> -->
-                      <v-selectize
-                        class="form-input block w-full"
-                        :options="options"
-                        :limit="10"
-                        v-model="form.position"
-                        placeholder="Type and select a position"
                       />
                       <div
                         v-if="$page.errors.position !== null"
@@ -231,49 +200,36 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Designation <span class="text-red-600">*</span></label
-                      >
-                      <input
-                        autofocus="true"
-                        class="form-input block w-full"
-                        placeholder="Enter designation"
-                        v-model="form.designation"
-                      />
-                      <div
-                        v-if="$page.errors.designation !== null"
-                        class="form-error"
-                      >
-                        {{ $page.errors.designation }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Status of Appoinment
-                        <span class="text-red-600">*</span></label
+                        >Status of Appoinment</label
                       >
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.status_of_appointment"
-                        value="Contractual"
+                        value="Job Order/Contractual"
                       />
-                      Contractual
+                      Job Order/Contractual
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.status_of_appointment"
-                        value="Permanent"
+                        value="Permanent/Regular"
                       />
-                      Permanent
+                      Permanent/Regular
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.status_of_appointment"
-                        value="Casual"
+                        value="Full-time"
                       />
-                      Casual
+                      Full-time
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.status_of_appointment"
+                        value="Part-time"
+                      />
+                      Part-time
                       <div
                         v-if="$page.errors.status_of_appointment !== null"
                         class="form-error"
@@ -284,9 +240,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold mb-4"
-                        >Sex <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold mb-4">Sex</label>
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
@@ -309,8 +263,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Height in Centimeters
-                        <span class="text-red-600">*</span></label
+                        >Height in Centimeters</label
                       >
                       <input
                         autofocus="true"
@@ -329,8 +282,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Weight in Kilograms
-                        <span class="text-red-600">*</span></label
+                        >Weight in Kilograms</label
                       >
                       <input
                         autofocus="true"
@@ -348,9 +300,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Blood Type <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Blood Type</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -368,13 +318,13 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >GSIS Business Partner. No.
-                        <span class="font-medium">&nbsp;</span></label
+                        >GSIS Identification
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
                         class="form-input block w-full"
-                        placeholder="Enter GSIS business partner number"
+                        placeholder="Enter GSIS identification"
                         v-model="form.gsis_id"
                         v-mask="'###########'"
                         type="tel"
@@ -391,7 +341,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >SSS Identification
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -413,7 +363,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Pagibig Identification
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -435,7 +385,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >TIN Identification
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -457,7 +407,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >PhilHealth Identification
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -479,7 +429,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Agency Employee Identification
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -492,7 +442,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold mb-4"
-                        >Civil Status <span class="text-red-600">*</span></label
+                        >Civil Status</label
                       >
                       <input
                         type="radio"
@@ -519,16 +469,16 @@
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.civil_status"
-                        value="Widowed"
+                        value="Widow"
                       />
-                      Widowed
+                      Widow
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
                         v-model="form.civil_status"
-                        value="Divorced"
+                        value="Other"
                       />
-                      Divorced
+                      Other
                       <div
                         v-if="$page.errors.civil_status !== null"
                         class="form-error"
@@ -539,9 +489,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Birth Date <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Birth Date</label>
                       <v-date-picker v-model="form.birth_date">
                         <template v-slot="{ inputValue, togglePopover }">
                           <div class="flex items-center">
@@ -565,9 +513,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Birth Place <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Birth Place</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -584,9 +530,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Citizenship <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Citizenship</label>
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
@@ -598,7 +542,7 @@
                       <input
                         type="radio"
                         class="w-3 h-3 ml-2 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                        @click="(other = true), (form.citizenship = null)"
+                        @click="other = true, form.citizenship = null"
                         v-model="form.citizenship"
                       />
                       Other (Specify)
@@ -620,8 +564,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Block Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Block Address</label
                       >
                       <input
                         autofocus="true"
@@ -640,8 +583,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Street Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Street Address</label
                       >
                       <input
                         autofocus="true"
@@ -661,7 +603,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Residential Village/Subdivision Address
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -680,8 +622,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Barangay Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Barangay Address</label
                       >
                       <input
                         autofocus="true"
@@ -700,8 +641,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Municipality Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Municipality Address</label
                       >
                       <input
                         autofocus="true"
@@ -720,8 +660,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Province Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Province Address</label
                       >
                       <input
                         autofocus="true"
@@ -740,8 +679,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Residential Zip Code Address
-                        <span class="text-red-600">*</span></label
+                        >Residential Zip Code Address</label
                       >
                       <input
                         autofocus="true"
@@ -762,8 +700,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Block Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Block Address</label
                         >
                         <input
                           autofocus="true"
@@ -782,8 +719,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Street Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Street Address</label
                         >
                         <input
                           autofocus="true"
@@ -803,7 +739,7 @@
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
                           >Permanent Village/Subdivision Address
-                          <span class="font-medium">&nbsp;</span></label
+                          <span class="font-medium">(Optional)</span></label
                         >
                         <input
                           autofocus="true"
@@ -822,8 +758,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Barangay Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Barangay Address</label
                         >
                         <input
                           autofocus="true"
@@ -842,8 +777,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Municipality Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Municipality Address</label
                         >
                         <input
                           autofocus="true"
@@ -862,8 +796,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Province Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Province Address</label
                         >
                         <input
                           autofocus="true"
@@ -882,8 +815,7 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                       <div class="w-full px-3">
                         <label class="form-label font-bold"
-                          >Permanent Zip Code Address
-                          <span class="text-red-600">*</span></label
+                          >Permanent Zip Code Address</label
                         >
                         <input
                           autofocus="true"
@@ -952,13 +884,8 @@
 <script>
 import { mask } from "vue-the-mask";
 import moment from "moment";
-import VSelectize from "@isneezy/vue-selectize";
-import jobs from "./jobs.json";
 
 export default {
-  components: {
-    VSelectize,
-  },
   props: {
     modal: {
       default: false,
@@ -967,30 +894,19 @@ export default {
     showing: Boolean,
     employee: Object,
   },
-  inject: ["offices"],
   directives: { mask },
   watch: {
     checked(checked) {
       this.address(checked);
       this.$emit("input", checked);
     },
-    form: {
-      handler(e) {
-        console.log(e);
-        this.form.office_id = e.department;
-      },
-      deep: true,
-    },
   },
-  name: "single-item-select",
   data() {
     return {
       checked: null,
       sending: false,
       other: false,
-      options: jobs,
       form: {
-        office_id: null,
         first_name: null,
         middle_name: null,
         last_name: null,
@@ -1000,7 +916,6 @@ export default {
         telephone: null,
         department: null,
         position: null,
-        designation: null,
         status_of_appointment: null,
         sex: null,
         height: null,
@@ -1039,10 +954,6 @@ export default {
     this.address(this.checked);
   },
   methods: {
-    onChange(event) {
-      console.log(event.target.selectedOptions[0].text);
-      this.form.department = event.target.selectedOptions[0].text;
-    },
     address(checked) {
       if (checked === true) {
         this.form.permanent_block = this.form.residential_block;

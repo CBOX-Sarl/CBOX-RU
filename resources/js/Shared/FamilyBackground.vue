@@ -5,14 +5,14 @@
         👨‍👩‍👧‍👦 Family Background
       </h5>
       <button
-        v-if="family !== null && $page.employee.user !== null"
+        v-if="family !== null"
         @click="showFamilyEditModal"
         class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
       >
         ✏️ Edit
       </button>
       <button
-        v-else-if="$page.employee.user !== null"
+        v-else
         @click="showFamilyModal"
         class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
       >

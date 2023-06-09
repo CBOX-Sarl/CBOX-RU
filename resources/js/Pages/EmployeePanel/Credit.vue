@@ -1,17 +1,8 @@
 <template>
   <div>
-    <div class="flex justify-between">
-      <h1 class="mb-8 font-bold text-3xl">
-        Vacation & Sick Leave Card Credits 🗂️
-        <!-- Vacation & Sick Leave Card of {{ employee.first_name }} {{ employee.last_name }} 🗂️ -->
-      </h1>
-      <inertia-link :href="route('cto.employee.credit', employee.id)">
-        <button class="text-right btn-indigo rounded-lg">
-          <span>Switch Card</span>
-          <span class="hidden md:inline">To CTO & SPL</span>
-        </button>
-      </inertia-link>
-    </div>
+    <h1 class="mb-8 font-bold text-3xl">
+      Leave Credits of {{ employee.first_name }} {{ employee.last_name }} 📊
+    </h1>
     <div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
       <div class="p-5 bg-white rounded-lg shadow">
         <div class="flex justify-between">
@@ -52,9 +43,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="shadow overflow-hidden border-b border-gray-200 rounded-lg mt-6"
-    >
+    <div class="shadow overflow-hidden border-b border-gray-200 rounded-lg mt-6">
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-white">
           <tr class="transition-all hover:bg-gray-100 hover:shadow-lg">
@@ -62,20 +51,7 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Crediting
-            </th>
-
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Period
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Particulars
+              Leave Number
             </th>
             <th
               scope="col"
@@ -93,19 +69,7 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Date Processed
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Processed By
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Remarks
+              Created At
             </th>
           </tr>
         </thead>
@@ -147,38 +111,8 @@
                 class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
               >
                 <div
-                  v-if="credit.leave_number === 'add'"
-                  class="capitalize font-medium"
-                >
-                  {{ formatDate(credit.created_at) }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div
-                  v-if="credit.leave_number !== 'add'"
-                  class="capitalize font-medium w-48"
-                >
-                  {{ credit.particular }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div
                   v-if="credit.vacation_leave !== null"
-                  class="capitalize font-medium text-green-800"
+                  class="capitalize font-medium"
                 >
                   {{ credit.vacation_leave }}
                 </div>
@@ -194,7 +128,7 @@
               >
                 <div
                   v-if="credit.sick_leave !== null"
-                  class="capitalize font-medium text-red-800"
+                  class="capitalize font-medium"
                 >
                   {{ credit.sick_leave }}
                 </div>
@@ -208,32 +142,8 @@
                 :href="route('credits', employee.id)"
                 class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
               >
-                <div class="capitalize font-medium">
-                  {{ format(credit.updated_at) }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div class="capitalize font-medium">
-                  {{ credit.user.first_name }} {{ credit.user.last_name }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div class="normal-case font-medium w-32">
-                  {{ credit.remarks }}
+                <div class="capitalize font-medium text-blue-600">
+                  {{ format(credit.created_at) }}
                 </div>
               </inertia-link>
             </td>
@@ -334,11 +244,6 @@ export default {
     },
     reset() {
       this.form = mapValues(this.form, () => null);
-    },
-    formatDate(value) {
-      if (value) {
-        return moment(String(value)).format("MMMM");
-      }
     },
   },
 };

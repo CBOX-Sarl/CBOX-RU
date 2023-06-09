@@ -4,12 +4,11 @@
       label
     }}</label>
     <input
-      :disabled="disabled"
       :id="id"
       ref="input"
       v-bind="$attrs"
       class="form-input"
-      :class="{ error: 0 }"
+      :class="{ error: error }"
       :type="type"
       :value="value"
       @input="$emit('input', $event.target.value)"
@@ -35,7 +34,6 @@ export default {
     value: String,
     label: String,
     error: String,
-    disabled: String,
   },
   methods: {
     focus() {

@@ -46,10 +46,7 @@
                 <form class="w-full max-w-lg pr-4 pt-5">
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Agency/Office
-                        <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Agency/Office</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -66,10 +63,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Monthly Salary
-                        <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Monthly Salary</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -87,10 +81,7 @@
 
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Date of Filing
-                        <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Date of Filing</label>
                       <v-date-picker v-model="form.date_of_filing">
                         <template v-slot="{ inputValue, togglePopover }">
                           <div class="flex items-center">
@@ -118,11 +109,11 @@
                         >Number of Working Days</label
                       >
                       <input
-                        @blur="getDays"
                         autofocus="true"
                         class="form-input block w-full"
                         placeholder="Enter number of working days"
                         v-model="form.number_of_working_days"
+                        v-mask="'###'"
                         type="tel"
                       />
                       <div
@@ -136,34 +127,10 @@
 
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <div class="flex justify-between">
-                        <label class="form-label font-bold"
-                          >Inclusive Dates
-                          <span class="text-red-600">*</span></label
-                        >
-                        <label
-                          v-if="!form.manual"
-                          @click="
-                            switchTo();
-                            form.start_of_inclusive_date = [];
-                          "
-                          class="form-label text-blue-600 cursor-pointer"
-                          >Manual Date Input</label
-                        >
-                        <label
-                          v-else
-                          @click="
-                            form.manual = false;
-                            form.start_of_inclusive_date = [];
-                          "
-                          class="form-label text-blue-600 cursor-pointer"
-                          >Switch Back</label
-                        >
-                      </div>
-                      <div
-                        v-if="!form.manual"
-                        class="bg-white p-1 w-full border rounded"
+                      <label class="form-label font-bold"
+                        >Inclusive Dates</label
                       >
+                      <div class="bg-white p-1 w-full border rounded">
                         <v-date-picker v-model="selected.date">
                           <template #default="{ togglePopover, hidePopover }">
                             <div class="flex flex-wrap">
@@ -204,15 +171,6 @@
                           + Add date
                         </button>
                       </div>
-                      <div v-else>
-                        <input
-                          @blur="handleBlur"
-                          autofocus="true"
-                          class="form-input block w-full"
-                          placeholder="Enter inclusive date"
-                          type="text"
-                        />
-                      </div>
                       <div
                         v-if="$page.errors.start_of_inclusive_date !== null"
                         class="form-error"
@@ -224,10 +182,7 @@
 
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Type of Leave
-                        <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Type of Leave</label>
                       <input
                         :disabled="totals.vacation === 0"
                         type="radio"
@@ -236,7 +191,34 @@
                         value="Vacation"
                         @click="type = null"
                       />
-                      Vacation Leave
+                      Vacation
+                      <input
+                        :disabled="totals.vacation === 0"
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.type_of_leave"
+                        value="CTO"
+                        @click="type = null"
+                      />
+                      CTO
+                      <input
+                        :disabled="totals.vacation === 0"
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.type_of_leave"
+                        value="SPL"
+                        @click="type = null"
+                      />
+                      SPL
+                      <input
+                        :disabled="totals.vacation === 0"
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.type_of_leave"
+                        value="FL"
+                        @click="type = null"
+                      />
+                      FL
                       <input
                         :disabled="totals.sick === 0"
                         type="radio"
@@ -245,7 +227,15 @@
                         value="Sick"
                         @click="type = null"
                       />
-                      Sick Leave
+                      Sick
+                      <input
+                        type="radio"
+                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
+                        v-model="form.type_of_leave"
+                        value="Maternity"
+                        @click="type = null"
+                      />
+                      Maternity
                       <input
                         :disabled="totals.sick === 0 || totals.vacation === 0"
                         type="radio"
@@ -255,45 +245,13 @@
                       />
                       Others (Specify)
                       <div class="pt-3">
-                        <select
+                        <input
                           v-if="showLeave"
+                          autofocus="true"
+                          class="form-input block w-full"
+                          placeholder="Please specify the type of leave"
                           v-model="form.type_of_leave"
-                          class="form-input block w-full appearance-none"
-                        >
-                          <option disabled selected>
-                            Please select other type
-                          </option>
-                          <option value="FL">Force Leave</option>
-                          <option value="Maternity">Maternity Leave</option>
-                          <option value="SPL">Solo Parent Leave</option>
-                          <option value="Terminal Leave">Terminal Leave</option>
-                          <option value="Monetization">
-                            Monetization Leave
-                          </option>
-                          <option value="Study Leave">Study Leave</option>
-                          <option value="Paternity Leave">
-                            Paternity Leave
-                          </option>
-                          <option value="CTO">
-                            Compensatory Time Off Leave
-                          </option>
-                          <option value="10-Day VAWC Leave">
-                            10-Day VAWC Leave (R.A. 9262)
-                          </option>
-                          <option value="Special Privilege Leave">
-                            Special Privilege Leave
-                          </option>
-                          <option value="Rehabilitaion Privilege">
-                            Rehabilitaion Privilege
-                          </option>
-                          <option value="Special Leave Benefits for Women">
-                            Special Leave Benefits for Women
-                          </option>
-                          <option value="Special Emergency Leave">
-                            Special Emergency Leave
-                          </option>
-                          <option value="Adoption Leave">Adoption Leave</option>
-                        </select>
+                        />
                       </div>
                       <div
                         v-if="$page.errors.type_of_leave !== null"
@@ -382,49 +340,12 @@
                       </div>
                     </div>
                   </div>
-                  <div v-if="showWomen" class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >In case of Special Leave Benefits for Women</label
-                      >
-                      <div class="pt-3">
-                        <input
-                          autofocus="true"
-                          class="form-input block w-full"
-                          placeholder="Please specify illness"
-                          v-model="form.special_leave_benefits_for_women"
-                        />
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="showStudy" class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >In case of Study Leave</label
-                      >
-                      <div class="pt-3">
-                        <input
-                          type="radio"
-                          class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                          v-model="form.study_leave_location"
-                          value="Completion of Master's Degree"
-                        />
-                        Completion of Master's Degree
-                        <input
-                          type="radio"
-                          class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                          v-model="form.study_leave_location"
-                          value="BAR/Board Examination Review"
-                        />
-                        BAR/Board Examination Review
-                      </div>
-                    </div>
-                  </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Commutation <span class="font-medium"></span
-                      ></label>
+                        >Commutation
+                        <span class="font-medium">(Optional)</span></label
+                      >
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
@@ -445,27 +366,6 @@
                       >
                         {{ $page.errors.commutation }}
                       </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Other Purpose <span class="font-medium"></span
-                      ></label>
-                      <input
-                        type="radio"
-                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                        v-model="form.other_purpose"
-                        value="Monetization of Leave Credits"
-                      />
-                      Monetization of Leave Credits
-                      <input
-                        type="radio"
-                        class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
-                        v-model="form.other_purpose"
-                        value="Terminal Leave"
-                      />
-                      Terminal Leave
                     </div>
                   </div>
                   <div v-if="$page.setting.employee === null">
@@ -636,20 +536,6 @@ export default {
           this.showSick = false;
         }
 
-        if (e.type_of_leave === "Special Leave Benefits for Women") {
-          console.log("Special Leave Benefits for Women");
-          this.showWomen = true;
-        } else {
-          this.showWomen = false;
-        }
-
-        if (e.type_of_leave === "Study Leave") {
-          console.log("Study Leave");
-          this.showStudy = true;
-        } else {
-          this.showStudy = false;
-        }
-
         e.number_of_working_days !== null &&
         e.number_of_working_days !== "" &&
         parseInt(e.number_of_working_days) !== e.start_of_inclusive_date.length
@@ -673,12 +559,8 @@ export default {
       hospital: null,
       showVacation: false,
       showSick: false,
-      showWomen: false,
-      showStudy: false,
       selected: {},
-      start_of_inclusive_date: null,
       form: {
-        manual: false,
         contact_id: this.$page.employee.id,
         leave_number: null,
         agency: "Catanduanes State University",
@@ -691,9 +573,6 @@ export default {
         type_of_leave: null,
         vacation_leave_location: null,
         sick_leave_location: null,
-        special_leave_benefits_for_women: null,
-        study_leave_location: null,
-        other_purpose: null,
         number_of_working_days: null,
         start_of_inclusive_date: [],
         end_of_inclusive_date: null,
@@ -714,21 +593,6 @@ export default {
     };
   },
   methods: {
-    getDays(e) {
-      e.target.value >= 5
-        ? (this.form.manual = true)
-        : (this.form.manual = false);
-    },
-    handleBlur(e) {
-      console.log(e.target.value);
-      if (this.form.start_of_inclusive_date.length >= 1) {
-        this.form.start_of_inclusive_date.pop();
-      }
-      this.form.start_of_inclusive_date.push({ date: e.target.value });
-    },
-    switchTo() {
-      this.form.manual = true;
-    },
     save() {
       this.form.sick_leave_location = `${this.option}::${this.hospital}`;
       this.form.leave_number = Math.floor(100000 + Math.random() * 900000);

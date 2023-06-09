@@ -30,7 +30,7 @@
                 <form class="w-full max-w-lg pr-4 pt-5">
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold">Name of Organization <span class="text-red-600">*</span></label>
+                      <label class="form-label font-bold">Name of Organization</label>
                       <input
                         autofocus="true"
                         class="form-input block w-full"
@@ -48,7 +48,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Number of Hours <span class="text-red-600">*</span></label
+                        >Number of Hours</label
                       >
                       <input
                         autofocus="true"
@@ -67,8 +67,8 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Inclusive Date <span class="text-red-600">*</span>
-                        <span class="font-medium"></span></label
+                        >Inclusive Date
+                        <span class="font-medium">(From)</span></label
                       >
                       <v-date-picker v-model="form.volunteers_from">
                         <template v-slot="{ inputValue, togglePopover }">
@@ -91,8 +91,8 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Inclusive Date <span class="text-red-600">*</span>
-                        <span class="font-medium"></span></label
+                        >Inclusive Date
+                        <span class="font-medium">(To)</span></label
                       >
                       <v-date-picker v-model="form.volunteers_to">
                         <template v-slot="{ inputValue, togglePopover }">
@@ -115,7 +115,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Nature of Work <span class="text-red-600">*</span></label
+                        >Nature of Work</label
                       >
                       <input
                         autofocus="true"

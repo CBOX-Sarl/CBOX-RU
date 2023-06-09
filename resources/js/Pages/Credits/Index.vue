@@ -1,174 +1,14 @@
 <template>
   <div>
     <h1 class="mb-8 font-bold text-3xl">
-      Vacation & Sick Leave Card of {{ employee.first_name }}
-      {{ employee.last_name }} 🗂️
+      Leave Credits of {{ employee.first_name }} {{ employee.last_name }} 📈
     </h1>
-    <div class="mb-6 flex items-center justify-between">
+    <div class="mb-6 flex justify-between items-center">
       <button @click="showManual = true" class="btn-indigo rounded-lg">
         <span>➕ Manual</span>
         <span class="hidden md:inline">Crediting</span>
       </button>
-      <inertia-link :href="route('cto.credits', employee.id)">
-        <button class="text-right btn-indigo rounded-lg">
-          <span>Switch Card</span>
-          <span class="hidden md:inline">To CTO & SPL</span>
-        </button>
-      </inertia-link>
-      <!-- <button @click="printPdf()" class="btn-indigo mx-3 rounded-lg">
-        <span>🖨️ Generate</span>
-        <span class="hidden md:inline">Credits</span>
-      </button> -->
     </div>
-
-    <vue-html2pdf
-      :show-layout="false"
-      :float-layout="true"
-      :enable-download="false"
-      :preview-modal="true"
-      :paginate-elements-by-height="1400"
-      :pdf-quality="2"
-      :manual-pagination="true"
-      pdf-format="legal"
-      pdf-orientation="portrait"
-      pdf-content-width="mx-auto"
-      @hasStartedGeneration="hasStartedGeneration()"
-      @hasGenerated="hasGenerated($event)"
-      ref="html2Pdf"
-    >
-      <section
-        slot="pdf-content"
-        class="mt-2 bg-white font-sans mx-auto text-black"
-        style="width: 816px; height: 1280px"
-      >
-        <div class="mx-4 mt-4">
-          <div class="text-right text-sm">&nbsp;</div>
-          <div class="text-right text-sm">&nbsp;</div>
-        </div>
-        <div class="flex mt-6">
-          <img class="mx-3 rounded-full" src="/img/logo.jpg" width="60px" />
-          <div class="my-auto">
-            <div class="text-sm italic mt-1">Republic of the Philippines</div>
-            <div class="text-sm font-bold uppercase my-1">
-              Catanduanes State University
-            </div>
-            <div class="text-sm italic mb-1">Virac, Catanduanes</div>
-          </div>
-        </div>
-        <div class="mt-4">
-          <div
-            class="bg-white font-sans mx-auto text-black"
-            style="width: 812px; height: 1113px"
-          >
-            <div class="w-full">
-              <div class="h-4 border-b-2 border-blue-600">
-                <div
-                  class="uppercase font-bold text-center justify-center my-2"
-                ></div>
-              </div>
-            </div>
-            <div class="mx-12">
-              <div class="mx-4 mt-6">
-                <div class="text-right text-sm">{{ date() }}</div>
-              </div>
-              <div class="mx-4 mt-2">
-                <div class="text-left text-sm">
-                  {{ employee.sex === "Male" ? "Mr." : "Ms." }}
-                  {{ employee.first_name }} {{ employee.middle_name }}
-                  {{ employee.last_name }}
-                </div>
-                <div class="text-left text-sm capitalize">
-                  {{ employee.position }}
-                </div>
-                <div class="text-left text-sm capitalize">
-                  {{ employee.department }}
-                </div>
-                <div class="text-left text-sm">This University</div>
-              </div>
-              <div class="mx-4 mt-4">
-                <div class="text-left text-sm">
-                  Dear {{ employee.sex === "Male" ? "Mr." : "Ms." }}
-                  <span class="uppercase">{{ employee.last_name }}</span
-                  >:
-                </div>
-              </div>
-              <div class="mx-4 mt-4">
-                <div class="text-justify text-sm leading-loose">
-                  <span class="pl-12">Please</span> be informed that per records
-                  in the Human Resource Management Services your balance of
-                  leave credits as of December 31, {{ year() }} are as follows:
-                </div>
-              </div>
-              <div class="mx-4 mt-4">
-                <div class="flex">
-                  <div class="w-4/12">
-                    <div class="text-sm text-right underline">
-                      Vacation Leave
-                    </div>
-                  </div>
-                  <div class="w-4/12">
-                    <div class="text-sm text-center underline">Sick Leave</div>
-                  </div>
-                  <div class="w-4/12">
-                    <div class="text-sm text-left underline">TOTAL</div>
-                  </div>
-                </div>
-              </div>
-              <div class="mx-4 mt-4">
-                <div class="flex">
-                  <div class="w-4/12">
-                    <div class="text-sm text-right underline">
-                      {{ round(totals.vacation) }}
-                    </div>
-                  </div>
-                  <div class="w-4/12">
-                    <div class="text-sm text-center underline">
-                      {{ round(totals.sick) }}
-                    </div>
-                  </div>
-                  <div class="w-4/12">
-                    <div class="text-sm text-left underline">{{ total() }}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="mx-4 mt-8">
-                <div class="text-right text-sm mr-24">Very truly yours,</div>
-              </div>
-              <div class="mx-4 mt-10">
-                <div class="text-right text-sm">
-                  <div class="uppercase">{{ hr.leave_hr_approving_name }}</div>
-                  <div class="normal-case">
-                    {{ hr.leave_hr_approving_position }},
-                    {{ hr.leave_hr_approving_office }}
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="w-full mt-10">
-              <div class="h-4 border-b-2 border-blue-600">
-                <div
-                  class="uppercase font-bold text-center justify-center my-2"
-                ></div>
-              </div>
-            </div>
-            <div class="flex">
-              <div class="w-4/12">
-                <div class="text-xs italic text-left">CSU-F-HRM-16l</div>
-              </div>
-              <div class="w-4/12">
-                <div class="text-xs text-center italic">Rev.0</div>
-              </div>
-              <div class="w-4/12">
-                <div class="text-xs text-right italic">
-                  Effectivity Date: June 1, 2015
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-    </vue-html2pdf>
-
     <div class="grid gap-7 sm:grid-cols-2 lg:grid-cols-3">
       <div class="p-5 bg-white rounded-lg shadow mr-3 mb-6">
         <div class="flex justify-between">
@@ -177,7 +17,7 @@
             <div class="flex items-center pt-1">
               <div class="text-2xl font-bold text-gray-700">
                 +{{ round(totals.vacation)
-                }}<span class="text-sm font-normal"> available balance</span>
+                }}<span class="text-sm font-normal"> available</span>
               </div>
             </div>
           </div>
@@ -190,7 +30,7 @@
             <div class="flex items-center pt-1">
               <div class="text-2xl font-bold text-gray-700">
                 +{{ round(totals.sick)
-                }}<span class="text-sm font-normal"> available balance</span>
+                }}<span class="text-sm font-normal"> available</span>
               </div>
             </div>
           </div>
@@ -199,7 +39,7 @@
       <div class="p-5 bg-white rounded-lg shadow ml-3 mb-6">
         <div class="flex justify-between">
           <div>
-            <div class="font-semibold text-gray-600">Overall Balance</div>
+            <div class="font-semibold text-gray-600">Overall Total</div>
             <div class="flex items-center pt-1">
               <div class="text-2xl font-bold text-green-600">
                 +{{ total() }}
@@ -213,30 +53,11 @@
       <table class="min-w-full divide-y divide-gray-200">
         <thead class="bg-white">
           <tr class="transition-all hover:bg-gray-100 hover:shadow-lg">
-            <!-- <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Leave Status
-            </th> -->
             <th
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Crediting
-            </th>
-
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Period
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Particulars
+              Leave Number
             </th>
             <th
               scope="col"
@@ -254,19 +75,7 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Date Processed
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Processed By
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
-              Remarks
+              Created At
             </th>
             <th
               scope="col"
@@ -282,47 +91,6 @@
             :key="credit.id"
             class="hover:bg-gray-100 focus-within:bg-gray-100"
           >
-            <!-- <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div v-if="credit.leave">
-                  <div
-                    v-if="credit.leave.recommendation === null"
-                    class="normal-case font-semibold text-yellow-600"
-                  >
-                    <span
-                      class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-yellow-600 bg-yellow-300 rounded-full"
-                      >Pending</span
-                    >
-                  </div>
-                  <div
-                    v-else-if="credit.leave.recommendation === 'Approved'"
-                    class="normal-case font-semibold text-green-600"
-                  >
-                    <span
-                      class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-green-600 bg-green-300 rounded-full"
-                      >Approved</span
-                    >
-                  </div>
-                  <div v-else class="normal-case font-semibold text-red-600">
-                    <span
-                      class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-600 bg-red-300 rounded-full"
-                      >Disapproved</span
-                    >
-                  </div>
-                </div>
-                <div v-else>
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-yellow-600 bg-yellow-300 rounded-full"
-                    >Pending</span
-                  >
-                </div>
-              </inertia-link>
-            </td> -->
             <td
               class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
             >
@@ -355,38 +123,8 @@
                 class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
               >
                 <div
-                  v-if="credit.leave_number === 'add'"
-                  class="capitalize font-medium"
-                >
-                  {{ formatDate(credit.created_at) }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div
-                  v-if="credit.leave_number !== 'add'"
-                  class="capitalize font-medium w-48"
-                >
-                  {{ credit.particular }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div
                   v-if="credit.vacation_leave !== null"
-                  class="capitalize font-medium text-green-800"
+                  class="capitalize font-medium"
                 >
                   {{ credit.vacation_leave }}
                 </div>
@@ -402,7 +140,7 @@
               >
                 <div
                   v-if="credit.sick_leave !== null"
-                  class="capitalize font-medium text-red-800"
+                  class="capitalize font-medium"
                 >
                   {{ credit.sick_leave }}
                 </div>
@@ -417,31 +155,7 @@
                 class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
               >
                 <div class="capitalize font-medium">
-                  {{ format(credit.updated_at) }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div class="capitalize font-medium">
-                  {{ credit.user.first_name }} {{ credit.user.last_name }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-1 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('credits', employee.id)"
-                class="px-6 py-1 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div class="normal-case font-medium w-32">
-                  {{ credit.remarks }}
+                  {{ format(credit.created_at) }}
                 </div>
               </inertia-link>
             </td>
@@ -502,7 +216,6 @@ import moment from "moment";
 import Sick from "@/Pages/Credits/Sick";
 import Vacation from "@/Pages/Credits/Vacation";
 import Manual from "@/Pages/Credits/Manual";
-import VueHtml2pdf from "vue-html2pdf";
 
 export default {
   metaInfo: { title: "Leave Credits" },
@@ -514,14 +227,12 @@ export default {
     Sick,
     Vacation,
     Manual,
-    VueHtml2pdf,
   },
   props: {
     credits: Object,
     employee: Object,
     filters: Object,
     totals: Object,
-    hr: Object,
   },
   data() {
     return {
@@ -556,10 +267,6 @@ export default {
     },
   },
   methods: {
-    printPdf() {
-      console.log(true);
-      this.$refs.html2Pdf.generatePdf();
-    },
     round(number) {
       return Math.round((number + Number.EPSILON) * 10000) / 10000;
     },
@@ -580,23 +287,12 @@ export default {
       }
     },
     total() {
-      return this.round(this.totals.vacation + this.totals.sick);
+      return this.totals.vacation + this.totals.sick;
     },
     format(value) {
       if (value) {
         return moment(String(value)).format("MMMM D, YYYY");
       }
-    },
-    formatDate(value) {
-      if (value) {
-        return moment(String(value)).format("MMMM");
-      }
-    },
-    date() {
-      return moment().format("MMMM D, YYYY");
-    },
-    year() {
-      return moment().format("YYYY");
     },
     reset() {
       this.form = mapValues(this.form, () => null);

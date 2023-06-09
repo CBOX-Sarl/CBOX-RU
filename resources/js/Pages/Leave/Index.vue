@@ -102,9 +102,9 @@
                 :href="route('leaves')"
                 class="px-6 py-2 whitespace-nowrap text-sm text-gray-900"
               >
-                <div class="capitalize font-normal">
-                  {{ leave.contact.first_name }} {{ leave.contact.middle_name }}
-                  {{ leave.contact.last_name }}
+                <div class="normal-case font-normal">
+                  {{ leave.first_name }} {{ leave.middle_initial }}
+                  {{ leave.last_name }}
                 </div>
                 <div class="capitalize text-sm text-blue-500">
                   {{ leave.position }}
@@ -178,7 +178,7 @@
                   class="normal-case font-semibold text-blue-600"
                 >
                   <li class="flex pt-1">
-                    {{ formatDate(date.date) }}
+                    {{ format(date.date) }}
                   </li>
                 </ul>
               </inertia-link>
@@ -194,25 +194,16 @@
                   v-if="leave.recommendation === null"
                   class="normal-case font-semibold text-yellow-600"
                 >
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-yellow-600 bg-yellow-300 rounded-full"
-                    >Pending</span
-                  >
+                  Pending
                 </div>
                 <div
                   v-else-if="leave.recommendation === 'Approved'"
                   class="normal-case font-semibold text-green-600"
                 >
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-green-600 bg-green-300 rounded-full"
-                    >Approved</span
-                  >
+                  Approved
                 </div>
                 <div v-else class="normal-case font-semibold text-red-600">
-                  <span
-                    class="inline-flex items-center justify-center px-2 py-1 mr-2 text-xs font-bold leading-none text-red-600 bg-red-300 rounded-full"
-                    >Disapproved</span
-                  >
+                  Disapproved
                 </div>
               </inertia-link>
             </td>
@@ -223,8 +214,7 @@
                 v-if="
                   leave.recommendation === null &&
                   leave.approved_for === null &&
-                  leave.disapproved_due_to === null &&
-                  $page.auth.user.can_approve === '1'
+                  leave.disapproved_due_to === null
                 "
               >
                 <span
@@ -238,16 +228,11 @@
                   >🚫 Disapprove</span
                 >
               </div>
-              <div  v-else-if="$page.auth.user.can_approve !== '1'">
-                <!-- <inertia-link
+              <div v-else>
+                <inertia-link
                   :href="route('leaves.form', leave.id)"
                   class="text-indigo-600 inline-flex mt-0 cursor-pointer hover:text-indigo-900"
                   >👁️‍🗨️ View Form</inertia-link
-                > -->
-                <inertia-link
-                  :href="route('credits', leave.contact.id)"
-                  class="text-indigo-600 inline-flex mt-0 cursor-pointer hover:text-indigo-900"
-                  >⚙️ Manage Credits</inertia-link
                 >
               </div>
             </td>
@@ -265,11 +250,7 @@
       :id="id"
       :modal.sync="show"
     ></disapprove-modal>
-    <approve-modal
-      :showing="approved"
-      :id="id"
-      :modal.sync="approved"
-    ></approve-modal>
+    <approve-modal :showing="approved" :id="id" :modal.sync="approved"></approve-modal>
     <pagination :links="leaves.links" />
   </div>
 </template>
@@ -340,13 +321,6 @@ export default {
     format(value) {
       if (value) {
         return moment(String(value)).format("MMM D, YYYY");
-      }
-    },
-    formatDate(value) {
-      if (value && moment(value, moment.ISO_8601, true).isValid()) {
-        return moment(String(value)).format("MMMM D, YYYY");
-      } else {
-        return value;
       }
     },
     currency(price, sign = "₱ ") {

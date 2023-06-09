@@ -7,11 +7,11 @@
         >
           <div class="flex items-center justify-between mb-0">
             <h5 class="mx-6 my-5 font-semibold font bg-white">
-              👶 Name of Children
+              👶 Name of Childrens
             </h5>
             <button
               @click="showAddModal"
-              v-if="family !== null && $page.employee.user !== null"
+              v-if="family !== null"
               class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
             >
               ➕ Add
@@ -33,7 +33,6 @@
                   Date of Birth
                 </th>
                 <th
-                  v-if="$page.employee.user !== null"
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
@@ -57,10 +56,7 @@
                     {{ format(c.children_birth_date) }}
                   </div>
                 </td>
-                <td
-                  v-if="$page.employee.user !== null"
-                  class="px-1 py-4 whitespace-nowrap text-sm font-medium"
-                >
+                <td class="px-1 py-4 whitespace-nowrap text-sm font-medium">
                   <span
                     @click="
                       showChildrenModal({
@@ -84,7 +80,7 @@
                   class="border-t text-red-500 text-sm px-6 py-4 font-bold"
                   colspan="4"
                 >
-                  ☹️ No children added.
+                  ☹️ No childrens added.
                 </td>
               </tr>
             </tbody>

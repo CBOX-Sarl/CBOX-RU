@@ -22,28 +22,18 @@ module.exports = {
             }),
             fill: theme => theme("colors"),
             fontSize: {
-                xxs: ".55rem",
-                x5: ".60rem",
+                xxs: ".55rem"
             },
             width: {
                 "0.5/12": "4.1666665%"
-            },
-            height: {
-                "56.50": "16rem"
             },
             borderWidth: {
                 one: "1px"
             },
             margin: {
                 "22": "5.5rem"
-            },
-            padding: {
-                "0.5": 	"0.55rem"
-            },
+            }
         }
-    },
-    corePlugins: {
-        listStyleType: false
     },
     variants: {
         fill: ["responsive", "hover", "focus", "group-hover"],

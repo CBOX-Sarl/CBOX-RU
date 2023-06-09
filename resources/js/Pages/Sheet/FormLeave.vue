@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="flex justify-between">
-      <h1 class="mb-8 font-bold text-3xl">Leave Form No. 6 📂</h1>
+      <h1 class="mb-8 font-bold text-3xl">Leave Form 📜</h1>
       <button
         @click="printPdf()"
         class="btn-indigo h-10 rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1"
@@ -30,6 +30,10 @@
         class="mt-2 bg-white font-sans mx-auto text-black"
         style="width: 816px; height: 1280px"
       >
+        <div class="mx-4 mt-4">
+          <div class="text-right text-sm">CSC Form No. 6</div>
+          <div class="text-right text-sm">Revised, 1984</div>
+        </div>
         <div class="flex mt-6">
           <img class="mx-3 rounded-full" src="/img/logo.jpg" width="60px" />
           <div class="my-auto">
@@ -39,11 +43,6 @@
             </div>
             <div class="text-sm italic mb-1">Virac, Catanduanes</div>
           </div>
-        </div>
-        <div class="border-t-2 mt-2 border-blue-600"></div>
-        <div class="mx-4 mt-2">
-          <div class="text-left text-sm">CSC Form No. 6</div>
-          <div class="text-left text-sm">Revised, 1984</div>
         </div>
         <div class="mt-4">
           <div
@@ -153,12 +152,7 @@
                     ></div>
                     <div class="text-sm ml-4">VACATION</div>
                   </div>
-                  <div class="flex mt-2">
-                    <div
-                      class="text-sm h-2 w-2 border my-auto ml-16 border-black p-1"
-                    ></div>
-                    <div class="my-1 text-sm ml-4">To seek employment</div>
-                  </div>
+                  <div class="my-1 text-sm ml-20">To seek employment</div>
                   <div class="flex mt-2">
                     <div class="w-1/2 flex">
                       <div
@@ -167,7 +161,7 @@
                           leave.type_of_leave === 'FL' ||
                           leave.type_of_leave === 'SPL'
                         "
-                        class="text-sm ml-10"
+                        class="text-sm ml-6"
                       >
                         🗸
                       </div>
@@ -490,10 +484,6 @@
                   <div class="flex mt-16 mb-3">
                     <div class="w-2/5 flex">&nbsp;</div>
                     <div class="w-3/5">
-                      <div class="text-center font-semibold">
-                        {{ leave.first_name }} {{ leave.middle_initial }}
-                        {{ leave.last_name }}
-                      </div>
                       <div
                         class="border-t-one border-black text-center text-sm mr-4"
                       >
@@ -522,12 +512,10 @@
                       <div class="text-sm mx-auto text-right">As of</div>
                     </div>
                     <div class="w-4/5">
-                      <div
-                        v-if="certification !== null"
+                      <div v-if="certification !== null"
                         class="text-sm mx-5 text-center font-semibold border-b-one border-black"
                       >
-                        <!-- {{ format(certification.updated_at) }} -->
-                        &nbsp;
+                        {{ format(certification.updated_at) }}
                       </div>
                     </div>
                   </div>
@@ -545,20 +533,17 @@
                   <div class="flex justify-center">
                     <div class="w-4/12 border-t-one border-r-one border-black">
                       <div class="text-sm text-center font-semibold">
-                        <!-- {{ totals.vacation }} -->
-                        &nbsp;
+                        {{ totals.vacation }}
                       </div>
                     </div>
                     <div class="w-4/12 border-t-one border-r-one border-black">
                       <div class="text-sm text-center font-semibold">
-                        <!-- {{ totals.sick }} -->
-                        &nbsp;
+                        {{ totals.sick }}
                       </div>
                     </div>
                     <div class="w-4/12 border-t-one border-black">
                       <div class="text-sm text-center font-semibold">
-                        <!-- {{ total() }} -->
-                        &nbsp;
+                        {{ total() }}
                       </div>
                     </div>
                   </div>
@@ -622,11 +607,11 @@
                       v-if="leave.recommendation === 'Approved'"
                       class="text-sm ml-10"
                     >
-                      <!-- 🗸 -->
+                      🗸
                     </div>
                     <div v-else class="text-sm ml-12"></div>
                     <div
-                      class="text-sm h-2 border my-auto ml-2 border-black p-1"
+                      class="text-sm h-2 border my-auto ml-4 border-black p-1"
                     ></div>
                     <div class="text-sm ml-4">Approved</div>
                   </div>
@@ -636,7 +621,7 @@
                         v-if="leave.recommendation === 'Disapproved'"
                         class="text-sm ml-10"
                       >
-                        <!-- 🗸 -->
+                        🗸
                       </div>
                       <div v-else class="text-sm ml-12"></div>
                       <div
@@ -649,8 +634,7 @@
                         v-if="leave.recommendation === 'Disapproved'"
                         class="border-b-one border-black font-semibold text-center text-sm mr-4"
                       >
-                        <!-- {{ leave.disapproved_due_to }} -->
-                        &nbsp;
+                        {{ leave.disapproved_due_to }}
                       </div>
                       <div
                         v-else

@@ -28,10 +28,7 @@
                   >
                     ✏️ Edit {{ employee.first_name }} Family Background
                   </h3>
-                  <button
-                    @click="closeModal"
-                    class="text-sm ml-2 pr-5 text-red-600"
-                  >
+                  <button @click="closeModal" class="text-sm ml-2 pr-5 text-red-600">
                     Close
                   </button>
                 </div>
@@ -39,8 +36,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Spouse First Name
-                        <span class="text-red-600">*</span></label
+                        >Spouse First Name</label
                       >
                       <input
                         autofocus="true"
@@ -60,8 +56,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Spouse Middle Name
-                        <span class="text-red-600">*</span></label
+                        >Spouse Middle Name</label
                       >
                       <input
                         autofocus="true"
@@ -81,8 +76,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Spouse Last Name
-                        <span class="text-red-600">*</span></label
+                        >Spouse Last Name</label
                       >
                       <input
                         autofocus="true"
@@ -103,7 +97,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Spouse Name Extension
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -124,7 +118,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Spouse Occupation/Business
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -145,7 +139,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Spouse Business Address
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -166,7 +160,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Spouse Phone Number
-                        <span class="text-red-600">*</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -187,8 +181,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Father First Name
-                        <span class="text-red-600">*</span></label
+                        >Father First Name</label
                       >
                       <input
                         autofocus="true"
@@ -208,8 +201,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Father Middle Name
-                        <span class="text-red-600">*</span></label
+                        >Father Middle Name</label
                       >
                       <input
                         autofocus="true"
@@ -229,8 +221,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Father Last Name
-                        <span class="text-red-600">*</span></label
+                        >Father Last Name</label
                       >
                       <input
                         autofocus="true"
@@ -251,7 +242,7 @@
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
                         >Father Name Extension
-                        <span class="font-medium">&nbsp;</span></label
+                        <span class="font-medium">(Optional)</span></label
                       >
                       <input
                         autofocus="true"
@@ -271,8 +262,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Mother First Name
-                        <span class="text-red-600">*</span></label
+                        >Mother First Name</label
                       >
                       <input
                         autofocus="true"
@@ -292,8 +282,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Mother Middle Name
-                        <span class="text-red-600">*</span></label
+                        >Mother Middle Name</label
                       >
                       <input
                         autofocus="true"
@@ -313,8 +302,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Mother Last Name
-                        <span class="text-red-600">*</span></label
+                        >Mother Last Name</label
                       >
                       <input
                         autofocus="true"
@@ -382,35 +370,65 @@ export default {
       sending: false,
       form: {
         spouse_first_name:
-          this.family === null ? null : this.family.spouse_first_name,
+          this.family === null
+            ? null
+            : this.family.spouse_first_name,
         spouse_middle_name:
-          this.family === null ? null : this.family.spouse_middle_name,
+          this.family === null
+            ? null
+            : this.family.spouse_middle_name,
         spouse_last_name:
-          this.family === null ? null : this.family.spouse_last_name,
+          this.family === null
+            ? null
+            : this.family.spouse_last_name,
         spouse_name_extension:
-          this.family === null ? null : this.family.spouse_name_extension,
+          this.family === null
+            ? null
+            : this.family.spouse_name_extension,
         spouse_occupation:
-          this.family === null ? null : this.family.spouse_occupation,
+          this.family === null
+            ? null
+            : this.family.spouse_occupation,
         spouse_business_name:
-          this.family === null ? null : this.family.spouse_business_name,
+          this.family === null
+            ? null
+            : this.family.spouse_business_name,
         spouse_business_address:
-          this.family === null ? null : this.family.spouse_business_address,
+          this.family === null
+            ? null
+            : this.family.spouse_business_address,
         spouse_telephone:
-          this.family === null ? "09" : this.family.spouse_telephone,
+          this.family === null
+            ? "09"
+            : this.family.spouse_telephone,
         father_first_name:
-          this.family === null ? null : this.family.father_first_name,
+          this.family === null
+            ? null
+            : this.family.father_first_name,
         father_middle_name:
-          this.family === null ? null : this.family.father_middle_name,
+          this.family === null
+            ? null
+            : this.family.father_middle_name,
         father_last_name:
-          this.family === null ? null : this.family.father_last_name,
+          this.family === null
+            ? null
+            : this.family.father_last_name,
         father_name_extension:
-          this.family === null ? null : this.family.father_name_extension,
+          this.family === null
+            ? null
+            : this.family.father_name_extension,
         mother_first_name:
-          this.family === null ? null : this.family.mother_first_name,
+          this.family === null
+            ? null
+            : this.family.mother_first_name,
         mother_middle_name:
-          this.family === null ? null : this.family.mother_middle_name,
+          this.family === null
+            ? null
+            : this.family.mother_middle_name,
         mother_last_name:
-          this.family === null ? null : this.family.mother_last_name,
+          this.family === null
+            ? null
+            : this.family.mother_last_name,
       },
     };
   },

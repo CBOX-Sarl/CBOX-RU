@@ -68,7 +68,6 @@
             scroll-region
           >
             <flash-messages />
-            <Offline @detected-condition="handleConnectivityChange"> </Offline>
             <slot />
           </div>
         </div>
@@ -78,10 +77,6 @@
       :showing="showModal"
       :modal.sync="showModal"
     ></notification-modal>
-    <offline-modal
-      :showing="showOffline"
-      :modal.sync="showOffline"
-    ></offline-modal>
   </div>
 </template>
 
@@ -92,9 +87,7 @@ import Icon from "@/Shared/Icon";
 import Logo from "@/Shared/Logo";
 import MainMenu from "@/Pages/EmployeePanel/MainMenu";
 import NotificationModal from "@/Shared/Modals/NotificationModal.vue";
-import OfflineModal from "@/Shared/Modals/OfflineModal.vue";
-import Offline from "v-offline";
-import swal from "sweetalert"; // Global import
+import swal from "sweetalert";
 
 export default {
   components: {
@@ -104,8 +97,6 @@ export default {
     Logo,
     MainMenu,
     NotificationModal,
-    Offline,
-    OfflineModal,
   },
   props: {
     modal: {
@@ -115,26 +106,11 @@ export default {
   data() {
     return {
       showModal: false,
-      showOffline: false,
       showUserMenu: false,
       accounts: null,
     };
   },
-  created() {
-    window.addEventListener('keydown', (e) => {
-      if (e.key == 'Escape') {
-        this.showOffline = false;
-      }
-    });
-  },
   methods: {
-    handleConnectivityChange(status) {
-      if (!status) {
-        this.showOffline = true;
-      } else {
-        this.showOffline = false;
-      }
-    },
     showNotifModal() {
       this.showModal = true;
     },

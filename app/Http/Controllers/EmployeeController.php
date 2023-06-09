@@ -4,32 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Contact;
 use App\Models\Credit;
-use App\Models\Leave;
-use App\Models\Training;
-use App\Models\Children;
-use App\Models\EmployeeSetting;
-use App\Models\Setting;
-use App\Models\Profile;
-use App\Models\Volunteer;
-use App\Models\Background;
 use App\Models\Job;
 use App\Models\Applicant;
-use App\Models\Education;
-use App\Models\Reference;
 use App\Models\User;
-use App\Models\Service;
-use App\Models\Experience;
 use App\Models\Task;
 use App\Models\Notice;
-use App\Models\Skill;
-use App\Models\GovernmentId;
-use App\Models\Recognition;
-use App\Models\Membership;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Inertia\Inertia;
-use App\Models\Office;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,7 +47,6 @@ class EmployeeController extends Controller
             return Inertia::render('EmployeePanel/Credit', [
                 'filters' => Request::all('search', 'trashed'),
                 'credits' => $contact->credit()
-                    ->with('user')
                     ->where('year', '=', Carbon::now()->year)
                     ->orderBy('created_at', 'DESC')
                     ->filter(Request::only('search', 'trashed'))
@@ -79,146 +61,6 @@ class EmployeeController extends Controller
             return redirect()->route('login.employee');
     }
 
-    public function teaching_profile($id, $type) {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/TeachingNonProfile', [
-                'employee' => $employee,
-                'contact' => Contact::with('office')->find($id),
-                'profile' => Profile::where('contact_id', $id)->where('type', $type)->first(),
-                'type' => ucwords($type),
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
-    public function profile_edit_work($id, $type) {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/Edit/EditWork', [
-                'employee' => $employee,
-                'contact' => Contact::with('office')->find($id),
-                'profile' => Profile::where('contact_id', $id)->where('type', $type)->first(),
-                'type' => ucwords($type),
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
-    public function profile_edit_education($id, $type) {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/Edit/EditEducation', [
-                'employee' => $employee,
-                'contact' => Contact::with('office')->find($id),
-                'profile' => Profile::where('contact_id', $id)->where('type', $type)->first(),
-                'type' => ucwords($type),
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
-    public function cto_credit(Contact $contact) {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/Cto', [
-                'filters' => Request::all('search', 'trashed'),
-                'credits' => $contact->ctocredit()
-                    ->with('user')
-                    ->where('year', '=', Carbon::now()->year)
-                    ->orderBy('created_at', 'DESC')
-                    ->filter(Request::only('search', 'trashed'))
-                    ->paginate(),
-                'totals' => [
-                    'cto' => $contact->ctocredit()->sum('cto_leave'),
-                    'spl' => $contact->ctocredit()->sum('spl_leave'),
-                ],
-                'employee' => $employee,
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
-    public function service_record(Contact $contact) 
-    {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/ServiceRecord', [
-                'filters' => Request::all('search', 'trashed'),
-                'employee' => $contact,
-                'service_records' => $contact->service_record()->orderBy('created_at', 'DESC')
-                    ->with('contact')
-                    ->with('user')
-                    ->paginate()
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
-    public function formEmployee(Leave $leave) {
-        $employee =  Auth::guard('employee')->user();
-
-        if($employee)
-            return Inertia::render('Sheet/FormLeaveEmployee', [
-                'leave' => $leave,
-                'totals' => [
-                    'vacation' => Credit::where('contact_id', $leave->contact_id)
-                                        ->where('year', '=', Carbon::now()->year)
-                                        ->sum('vacation_leave'),
-                    'sick' => Credit::where('contact_id', $leave->contact_id)
-                                    ->where('year', '=', Carbon::now()->year)
-                                    ->sum('sick_leave'),
-                ],
-                'certification' => Credit::select('created_at', 'updated_at')
-                                        ->where('contact_id', $leave->contact_id)
-                                        ->where('year', '=', Carbon::now()->year)
-                                        ->orderBy('created_at', 'DESC')
-                                        ->first(),
-                'oic' => EmployeeSetting::where('contact_id', $leave->contact_id)
-                                        ->orderBy('created_at', 'DESC')
-                                        ->first(),
-                'hr' => Setting::where('id', 1)->first(),
-                'employee' => $employee,
-            ]);
-        else
-            return redirect()->route('login.employee'); 
-    }
- 
-    public function formEmployeeNew(Leave $leave) {
-        $employee =  Auth::guard('employee')->user();
- 
-        if($employee)
-            return Inertia::render('Sheet/FormLeaveEmployeeNew', [
-                'leave' => $leave,
-                'totals' => [
-                    'vacation' => Credit::where('contact_id', $leave->contact_id)
-                                        ->where('year', '=', Carbon::now()->year)
-                                        ->sum('vacation_leave'),
-                    'sick' => Credit::where('contact_id', $leave->contact_id)
-                                    ->where('year', '=', Carbon::now()->year)
-                                    ->sum('sick_leave'),
-                ],
-                'certification' => Credit::select('created_at', 'updated_at')
-                                        ->where('contact_id', $leave->contact_id)
-                                        ->where('year', '=', Carbon::now()->year)
-                                        ->orderBy('created_at', 'DESC')
-                                        ->first(),
-                'oic' => EmployeeSetting::where('contact_id', $leave->contact_id)
-                                        ->orderBy('created_at', 'DESC')
-                                        ->first(),
-                'hr' => Setting::where('id', 1)->first(),
-                'employee' => $employee,
-                'office' => Office::whereId($employee->office_id)->first(),
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
     public function profile(Contact $contact)
     {
         $employee =  Auth::guard('employee')->user();
@@ -228,7 +70,6 @@ class EmployeeController extends Controller
             return Inertia::render('EmployeePanel/Profile', [
                 'employee' => $employee,
                 'notices' => Notice::orderBy('created_at', 'DESC')->take(5)->get(),
-                'offices' => Office::get(),
                 'contact' => [
                     'id' => $contact->id,
                     'first_name' => $contact->first_name,
@@ -276,29 +117,25 @@ class EmployeeController extends Controller
                 ],
                 'family' => $family,
                 'childrens' => !empty($family->id) ? Children::where('background_id', $family->id)
-                    ->orderBy('created_at', 'DESC')->get() : null,
+                    ->get() : null,
                 'educations' => $contact->educations()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'experiences' => $contact->experiences()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'eligibilities' => $contact->services()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'volunteers' => $contact->volunteers()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'trainings' => $contact->trainings()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'skills' => $contact->skills()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'recognitions' => $contact->recognitions()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'memberships' => $contact->memberships()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
                 'documents' => $contact->documents()
-                    ->orderBy('created_at', 'DESC')->get(),
-                'references' => $contact->reference()
-                    ->orderBy('created_at', 'DESC')->get(),
-                'governments' => $contact->government()
-                    ->orderBy('created_at', 'DESC')->get(),
+                    ->get(),
 
             ]);
         else
@@ -342,46 +179,10 @@ class EmployeeController extends Controller
         }
     }
 
-    public function pds($contact) 
-    {
-        $employee =  Auth::guard('employee')->user();
-        $background = Background::whereContactId(Auth::guard('employee')->user()->id)->first();
-
-        if($employee)
-            return Inertia::render('EmployeePanel/Pds/Pds', [
-                'employee' => $employee,
-                'family' => [
-                    'parents' => $background,
-                    'children' => Children::whereContactId(Auth::guard('employee')->user()->id)
-                                            ->whereBackgroundId($background->id)->get(),
-                ],
-                'education' => [
-                    'primary' => Education::whereContactId(Auth::guard('employee')->user()->id)->whereEducationLevel('Primary Education')->first(),
-                    'secondary' => Education::whereContactId(Auth::guard('employee')->user()->id)->whereEducationLevel('Secondary Education')->first(),
-                    'tertiary' => Education::whereContactId(Auth::guard('employee')->user()->id)->whereEducationLevel('Tertiary Education')->first(),
-                    'vocational' => Education::whereContactId(Auth::guard('employee')->user()->id)->whereEducationLevel('Vocational Education')->first(),
-                    'graduate' => Education::whereContactId(Auth::guard('employee')->user()->id)->whereEducationLevel('Graduate Studies')->first()
-                ],
-                'cs' => Service::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                'work' => Experience::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                'volunteer' => Volunteer::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                'training' => Training::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                'other' => [
-                    'skill' => Skill::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                    'recognition' => Recognition::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                    'member' => Membership::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                ],
-                'reference' => Reference::whereContactId(Auth::guard('employee')->user()->id)->get(),
-                'gid' => GovernmentId::whereContactId(Auth::guard('employee')->user()->id)->first(),
-            ]);
-        else
-            return redirect()->route('login.employee');
-    }
-
     public function employee_logout()
     {
         Auth::guard('employee')->logout();
 
-        return redirect()->route('login.employee'); 
+        return redirect()->route('login.employee');
     }
 }

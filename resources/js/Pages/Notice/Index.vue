@@ -45,12 +45,6 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Attachment
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
               Posted On
             </th>
             <th
@@ -98,20 +92,8 @@
                 :href="route('notices')"
                 class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
               >
-                <div class="normal-case text-justify w-64">
-                  {{ notice.notice_description }}
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-4 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                :href="route('notices')"
-                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-              >
-                <div class="normal-case text-justify w-64">
-                  {{ notice.file_name }}
+                <div class="normal-case">
+                  {{ truncate(notice.notice_description) }}
                 </div>
               </inertia-link>
             </td>
@@ -135,11 +117,6 @@
                 @click="showEditModal(notice)"
                 class="text-indigo-600 cursor-pointer hover:text-indigo-900"
                 >✏️ Edit</span
-              >
-              <span
-                v-if="!notice.deleted_at"
-                class="text-indigo-600 cursor-pointer hover:text-indigo-900"
-                ><a :href="`/storage/`+notice.file">💾 Download</a></span
               >
               <span
                 @click="destroy(notice.id, notice.notice_subject)"

@@ -64,7 +64,7 @@
               height="512"
             />
             <div v-if="contact.deleted_at" class="pt-2"></div>
-            <div v-else-if="$page.employee.user !== null" class="text-center pt-2">
+            <div v-else class="text-center pt-2">
               <button
                 @click="browse()"
                 class="rounded-full text-blue-600 hover:bg-gray-400 hover:bg-opacity-50 font-semibold p-2 focus:outline-none text-sm text-gray transition duration-200"
@@ -142,7 +142,6 @@
           <h5 class="mx-6 my-5 font-semibold font bg-white">📑 Documents</h5>
           <button
             @click="showDocumentModal"
-            v-if="$page.employee.user !== null"
             class="h-8 text-sm items-center text-blue-600 font-semibold rounded-lg my-2 mx-6"
           >
             ➕ Add
@@ -220,12 +219,6 @@
       class="flex"
     ></other-informations>
 
-    <CharacterAndId
-      :references="references"
-      :governments="governments"
-      class="flex"
-    ></CharacterAndId>
-
     <document-add-modal
       :showing="showDocument"
       :employee="contact"
@@ -251,7 +244,6 @@ import PersonalInformation from "@/Shared/PersonalInformation.vue";
 import FamilyBackground from "@/Shared/FamilyBackground.vue";
 import Childrens from "@/Shared/Childrens.vue";
 import DocumentAddModal from "@/Shared/Modals/DocumentAddModal.vue";
-import CharacterAndId from "@/Shared/CharacterAndId.vue";
 import moment from "moment";
 
 export default {
@@ -277,7 +269,6 @@ export default {
     FamilyBackground,
     Childrens,
     DocumentAddModal,
-    CharacterAndId,
   },
   provide() {
     return { employeeId: this.contact, familyObject: this.family };
@@ -297,8 +288,6 @@ export default {
     family: Object,
     childrens: Array,
     documents: Array,
-    references: Array,
-    governments: Array,
   },
   remember: "form",
   data() {

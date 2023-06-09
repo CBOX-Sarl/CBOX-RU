@@ -1,7 +1,7 @@
 <template>
   <div>
     <label v-if="label" class="form-label font-semibold">{{ label }}</label>
-    <div class="form-input p-0" :class="{ error: error }">
+    <div class="form-input p-0" :class="{ error: errors.length }">
       <input
         ref="file"
         type="file"
@@ -34,7 +34,7 @@
         </button>
       </div>
     </div>
-    <div v-if="error" class="form-error">{{ error }}</div>
+    <div v-if="errors.length" class="form-error">{{ errors[0] }}</div>
   </div>
 </template>
 
@@ -44,7 +44,10 @@ export default {
     value: File,
     label: String,
     accept: String,
-    error: String,
+    errors: {
+      type: Array,
+      default: () => [],
+    },
   },
   watch: {
     value(value) {

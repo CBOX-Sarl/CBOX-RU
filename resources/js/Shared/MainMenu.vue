@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
+    <div class="mb-4">
       <inertia-link
         class="flex items-center group py-3"
         :href="route('dashboard')"
@@ -12,15 +12,11 @@
               : 'text-indigo-300 font-bold group-hover:text-white'
           "
         >
-          🏠 Home
-          <span
-            class="animate-pulse inline-flex items-center justify-center ml-1 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"
-            >{{ $page.notifiable.tickets }}</span
-          >
+          🏠 Dashboard
         </div>
       </inertia-link>
     </div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
+    <div class="mb-4">
       <inertia-link
         class="flex items-center group py-3"
         :href="route('employees')"
@@ -36,7 +32,7 @@
         </div>
       </inertia-link>
     </div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
+    <div class="mb-4">
       <inertia-link class="flex items-center group py-3" :href="route('jobs')">
         <div
           :class="
@@ -49,7 +45,7 @@
         </div>
       </inertia-link>
     </div>
-    <!-- <div class="mb-4">
+    <div class="mb-4">
       <inertia-link
         class="flex items-center group py-3"
         :href="route('applicants')"
@@ -64,8 +60,8 @@
           🤝 Recruitment
         </div>
       </inertia-link>
-    </div> -->
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
+    </div>
+    <div class="mb-4">
       <inertia-link
         class="flex items-center group py-3"
         :href="route('notices')"
@@ -81,7 +77,7 @@
         </div>
       </inertia-link>
     </div>
-    <div v-if="$page.auth.user.super === true || $page.auth.user.can_approve == '1'" class="mb-4">
+    <div v-if="$page.auth.user.super === true" class="mb-4">
       <inertia-link
         class="flex items-center group py-3"
         :href="route('leaves')"
@@ -101,87 +97,7 @@
         </div>
       </inertia-link>
     </div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
-      <inertia-link
-        class="flex items-center group py-3"
-        :href="route('ipcr.index')"
-      >
-        <div
-          :class="
-            isUrl('ipcr.index')
-              ? 'text-white font-bold'
-              : 'text-indigo-300 font-bold group-hover:text-white'
-          "
-        >
-          🗃️ IPCR/OPCR
-          <!-- <span
-            class="animate-pulse inline-flex items-center justify-center ml-1 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"
-            >{{ $page.notifiable.leaves }}</span
-          > -->
-        </div>
-      </inertia-link>
-    </div>
-    <div v-if="$page.auth.user.super === true" class="mb-4">
-      <inertia-link
-        class="flex items-center group py-3"
-        href="/teaching/nonteaching/list?type=teaching"
-      >
-        <div
-          :class="
-            isUrl('teaching.nonteaching.list')
-              ? 'text-white font-bold'
-              : 'text-indigo-300 font-bold group-hover:text-white'
-          "
-        >
-          👩‍🏫 Profiles
-          <!-- <span
-            class="animate-pulse inline-flex items-center justify-center ml-1 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"
-            >{{ $page.notifiable.leaves }}</span
-          > -->
-        </div>
-      </inertia-link>
-    </div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
-      <inertia-link
-        class="flex items-center group py-3"
-        :href="route('psipop.index')"
-      >
-        <div
-          :class="
-            isUrl('psipop.index')
-              ? 'text-white font-bold'
-              : 'text-indigo-300 font-bold group-hover:text-white'
-          "
-        >
-          📂 PSIPOP
-          <!-- <span
-            class="animate-pulse inline-flex items-center justify-center ml-1 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"
-            >{{ $page.notifiable.leaves }}</span
-          > -->
-        </div>
-      </inertia-link>
-    </div>
-    <div v-if="$page.auth.user.super === true" class="mb-4">
-      <inertia-link
-        class="flex items-center group py-3"
-        :href="route('scholarship.index')"
-      >
-        <div
-          :class="
-            isUrl('scholarship.index')
-              ? 'text-white font-bold'
-              : 'text-indigo-300 font-bold group-hover:text-white'
-          "
-        >
-          🎓 Scholars
-          <span
-            class="animate-pulse inline-flex items-center justify-center ml-1 px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full"
-            >{{ $page.notifiable.scholarships }}</span
-          >
-        </div>
-      </inertia-link>
-    </div>
-    <div v-if="$page.auth.user.can_approve !== '1' && $page.auth.user.can_accept !== '1'" class="mb-4">
+    <div class="mb-4">
       <inertia-link class="flex items-center group py-3" :href="route('users')">
         <div
           :class="

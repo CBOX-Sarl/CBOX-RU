@@ -50,12 +50,6 @@
               scope="col"
               class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
             >
-              Designation
-            </th>
-            <th
-              scope="col"
-              class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-            >
               Phone
             </th>
             <th
@@ -133,11 +127,8 @@
                 :href="route('employees.edit', contact.id)"
                 tabindex="-1"
               >
-                <div
-                  class="capitalize"
-                  v-if="contact.office.office_name !== null"
-                >
-                  {{ contact.office.office_name }}
+                <div class="capitalize" v-if="contact.department !== null">
+                  {{ contact.department }}
                 </div>
                 <div v-else class="text-sm text-gray-500">
                   No data available
@@ -157,22 +148,6 @@
               >
                 <div class="capitalize" v-if="contact.position !== null">
                   {{ contact.position }}
-                </div>
-                <div v-else class="text-sm text-gray-500">
-                  No data available
-                </div>
-              </inertia-link>
-            </td>
-            <td
-              class="px-6 py-4 whitespace-nowrap transition duration-500 ease-in-out transform hover:-translate-y-1"
-            >
-              <inertia-link
-                class="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
-                :href="route('employees.edit', contact.id)"
-                tabindex="-1"
-              >
-                <div class="capitalize" v-if="contact.designation !== null">
-                  {{ contact.designation }}
                 </div>
                 <div v-else class="text-sm text-gray-500">
                   No data available
@@ -217,7 +192,7 @@
             >
               <div v-if="$page.auth.user.super === true">
                 <inertia-link
-                  v-if="contact.status_of_appointment === 'Permanent'"
+                  v-if="contact.status_of_appointment === 'Permanent/Regular'"
                   class="text-indigo-600 hover:text-indigo-900"
                   :href="route('credits', contact.id)"
                   tabindex="-1"
@@ -288,41 +263,7 @@
                 :href="route('employees.edit', contact.id)"
                 tabindex="-1"
               >
-                <span>👁️‍🗨️ Main Profile</span> </inertia-link
-              ><br />
-              <inertia-link
-                v-if="contact.status_of_appointment == 'Permanent'"
-                class="text-indigo-600 hover:text-indigo-900"
-                :href="
-                  route('profile.index', {
-                    profile: contact.id,
-                    type: 'teaching',
-                  })
-                "
-                tabindex="-1"
-              >
-                <span>👩‍🏫 Teaching Profile</span> </inertia-link
-              ><br />
-              <inertia-link
-                v-if="contact.status_of_appointment == 'Permanent'"
-                class="text-indigo-600 hover:text-indigo-900"
-                :href="
-                  route('profile.index', {
-                    profile: contact.id,
-                    type: 'non-teaching',
-                  })
-                "
-                tabindex="-1"
-              >
-                <span>👩‍🏫 Non Teaching Profile</span> </inertia-link
-              ><br />
-              <inertia-link
-                v-if="contact.status_of_appointment == 'Permanent'"
-                class="text-indigo-600 hover:text-indigo-900"
-                :href="route('service.record.index', contact.id)"
-                tabindex="-1"
-              >
-                <span>⏺️ Service Record</span>
+                <span>👁️‍🗨️ View</span>
               </inertia-link>
             </td>
           </tr>
@@ -364,12 +305,6 @@ export default {
   props: {
     contacts: Object,
     filters: Object,
-    offices: Array,
-  },
-  provide() {
-    return {
-      offices: this.offices,
-    };
   },
   data() {
     return {

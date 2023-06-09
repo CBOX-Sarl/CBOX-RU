@@ -5,7 +5,6 @@ use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\OrganizationsController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ReportsController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\Employee\ChildrenController;
@@ -16,7 +15,6 @@ use App\Http\Controllers\Employee\VolunteerController;
 use App\Http\Controllers\Employee\FamilyController;
 use App\Http\Controllers\Employee\TrainingController;
 use App\Http\Controllers\Employee\OtherInformationController;
-use App\Http\Controllers\Employee\CharacterController;
 use App\Http\Controllers\Employee\DocumentController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\JobController;
@@ -27,22 +25,19 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\LeaveController;
 use App\Http\Controllers\AdminLeaveController;
 use App\Http\Controllers\CreditController;
-use App\Http\Controllers\CtoCreditController;
 use App\Http\Controllers\InquiryController;
-use App\Http\Controllers\ServiceRecordController;
-use App\Http\Controllers\IpcrOpcrController;
-use App\Http\Controllers\AdminIpcrOpcrController;
-use App\Http\Controllers\PsipopController;
-use App\Http\Controllers\ScholarshipController;
-use App\Http\Controllers\AdminScholarshipController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/sym', function () {
-//     $target = '/home/catandua/public_html/hrms_laravel/storage/app/public';
-//     $shortcut = '/home/catandua/public_html/hrms/storage';
-//     symlink($target, $shortcut) ;
-//     echo('Success');
-// });
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
 
 // Auth
 
@@ -69,10 +64,6 @@ Route::post('logout', [LoginController::class, 'logout'])
 
 Route::get('/', [DashboardController::class, 'index'])
     ->name('dashboard')
-    ->middleware('auth');
-
-Route::post('reply', [DashboardController::class, 'reply'])
-    ->name('dashboard.reply')
     ->middleware('auth');
 
 // Users
@@ -104,50 +95,6 @@ Route::delete('users/{user}', [UsersController::class, 'destroy'])
 Route::put('users/{user}/restore', [UsersController::class, 'restore'])
     ->name('users.restore')
     ->middleware('auth');
-    
-// Profile
-
-Route::get('employee/profile/{profile}/type/{type}', [ProfileController::class, 'index'])
-    ->name('profile.index')
-    ->middleware('remember', 'auth');
-
-// IPCR
-
-Route::get('ipcr/opcr', [AdminIpcrOpcrController::class, 'index'])
-    ->name('ipcr.index')
-    ->middleware('remember', 'auth');
-
-// PSIPOP
-
-Route::get('psipop', [PsipopController::class, 'index'])
-    ->name('psipop.index')
-    ->middleware('remember', 'auth');
-
-Route::get('psipop/create', [PsipopController::class, 'create'])
-    ->name('psipop.create')
-    ->middleware('remember', 'auth');
-
-Route::get('psipop/edit/{id}', [PsipopController::class, 'edit'])
-    ->name('psipop.edit')
-    ->middleware('remember', 'auth');
-
-Route::put('psipop/update/{id}', [PsipopController::class, 'update'])
-    ->name('psipop.update')
-    ->middleware('remember', 'auth');
-
-Route::post('psipop/create/store', [PsipopController::class, 'store'])
-    ->name('psipop.store')
-    ->middleware('remember', 'auth');
-
-Route::delete('psipop/delete/{id}', [PsipopController::class, 'destroy'])
-    ->name('psipop.destroy')
-    ->middleware('remember', 'auth');
-
-// Teaching/Non-Teaching List
-
-Route::get('teaching/nonteaching/list', [ProfileController::class, 'list'])
-    ->name('teaching.nonteaching.list')
-    ->middleware('remember', 'auth');
 
 // Employees
 
@@ -258,28 +205,6 @@ Route::put('training/{training}', [TrainingController::class, 'update'])
 Route::delete('training/{training}', [TrainingController::class, 'destroy'])
     ->name('training.destroy');
 
-// Reference
-
-Route::post('reference', [CharacterController::class, 'store'])
-    ->name('reference.store');
-
-Route::put('reference/{reference}', [CharacterController::class, 'update'])
-    ->name('reference.update');
-
-Route::delete('reference/{reference}', [CharacterController::class, 'destroy'])
-    ->name('reference.destroy');
-
-// IDs
-
-Route::post('ids', [CharacterController::class, 'store_ids'])
-    ->name('ids.store');
-
-Route::put('ids/{ids}', [CharacterController::class, 'update_ids'])
-    ->name('ids.update');
-
-Route::delete('ids/{ids}', [CharacterController::class, 'destroy_ids'])
-    ->name('ids.destroy');
-
 // Skill
 
 Route::post('skill', [OtherInformationController::class, 'store'])
@@ -343,7 +268,7 @@ Route::get('lists/jobs', [JobController::class, 'list'])
 Route::get('job/offer/{link}', [JobController::class, 'job'])
     ->name('jobs.job');
 
-Route::put('jobs', [JobController::class, 'store'])
+Route::post('jobs', [JobController::class, 'store'])
     ->name('jobs.store')
     ->middleware('auth');
 
@@ -365,17 +290,17 @@ Route::put('notification', [NotificationController::class, 'update'])
     ->name('notification.update')
     ->middleware('auth');
 
-// // Applicant
+// Applicant
 
-// Route::get('applicants', [ApplicantController::class, 'index'])
-//     ->name('applicants')
-//     ->middleware('auth');
+Route::get('applicants', [ApplicantController::class, 'index'])
+    ->name('applicants')
+    ->middleware('auth');
 
-// Route::put('applicants/{job}', [ApplicantController::class, 'store'])
-//     ->name('applicants.store');
+Route::put('applicants/{job}', [ApplicantController::class, 'store'])
+    ->name('applicants.store');
 
-// Route::post('applicants/{applicant}/{job}', [ApplicantController::class, 'recruit'])
-//     ->name('applicants.recruit');
+Route::post('applicants/{applicant}/{job}', [ApplicantController::class, 'recruit'])
+    ->name('applicants.recruit');
 
 // Task
 
@@ -415,7 +340,7 @@ Route::get('notices', [NoticeController::class, 'index'])
     ->name('notices')
     ->middleware('auth');
 
-Route::put('notices', [NoticeController::class, 'store'])
+Route::post('notices', [NoticeController::class, 'store'])
     ->name('notices.store')
     ->middleware('auth');
 
@@ -451,23 +376,6 @@ Route::get('leaves/form/{leave}', [AdminLeaveController::class, 'form'])
     ->name('leaves.form')
     ->middleware('auth');
 
-// Service Record
-
-Route::get('employee/service/record/{contact}', [ServiceRecordController::class, 'index'])
-    ->name('service.record.index')
-    ->middleware('auth');
-
-Route::post('employee/service/record/store', [ServiceRecordController::class, 'store'])
-    ->name('service.record.store')
-    ->middleware('auth');
-
-Route::put('employee/service/record/{id}/update', [ServiceRecordController::class, 'update'])
-    ->name('service.record.update')
-    ->middleware('auth');
-
-Route::delete('employee/service/record/delete/{id}', [ServiceRecordController::class, 'destroy'])
-    ->name('service.record.destroy')
-    ->middleware('auth');
 
 // Credits
 
@@ -491,46 +399,6 @@ Route::delete('employee/leave/credits/{id}', [CreditController::class, 'destroy'
     ->name('credits.destroy')
     ->middleware('auth');
 
-// Scholars
-
-Route::get('scholarship', [AdminScholarshipController::class, 'index'])
-    ->name('scholarship.index')
-    ->middleware('auth');
-
-Route::get('scholarship/view/{id}', [AdminScholarshipController::class, 'view'])
-    ->name('scholarship.view')
-    ->middleware('auth');
-
-Route::put('scholarship/approve/{id}/{user_id}', [AdminScholarshipController::class, 'approve'])
-    ->name('scholarship.approve')
-    ->middleware('auth');
-
-Route::put('scholarship/disapprove/{id}/{user_id}', [AdminScholarshipController::class, 'disapprove'])
-    ->name('scholarship.disapprove')
-    ->middleware('auth');
-
-// CTO
-
-Route::get('employee/leave/cto/credits/{contact}/s', [CtoCreditController::class, 'index'])
-    ->name('cto.credits')
-    ->middleware('auth');
-
-Route::put('employee/spl/credits/{credit}/s', [CtoCreditController::class, 'update_sick'])
-    ->name('cto.credits.spl.update')
-    ->middleware('auth');
-
-Route::put('employee/cto/credits/{credit}/s', [CtoCreditController::class, 'update_vacation'])
-    ->name('cto.credits.cto.update')
-    ->middleware('auth');
-
-Route::post('employee/leave/credits/{contact}/s', [CtoCreditController::class, 'store'])
-    ->name('cto.credits.store')
-    ->middleware('auth');
-
-Route::delete('employee/leave/credits/{id}/s', [CtoCreditController::class, 'destroy'])
-    ->name('cto.credits.destroy')
-    ->middleware('auth');
-
 // Employees
 
 Route::get('personal/dashboard', [EmployeeController::class, 'index'])
@@ -541,96 +409,12 @@ Route::get('personal/profile/{contact}', [EmployeeController::class, 'profile'])
     ->name('employee.profile')
     ->middleware('web', 'employee');
 
-Route::get('personal/profile/{contact}/form/pds', [EmployeeController::class, 'pds'])
-    ->name('employee.profile.pds')
-    ->middleware('web', 'employee');
-
-Route::get('personal/profile/{contact}/type/{type}', [EmployeeController::class, 'teaching_profile'])
-    ->name('employee.profile.teaching')
-    ->middleware('web', 'employee');
-
-Route::get('personal/profile/{contact}/type/{type}/edit_work', [EmployeeController::class, 'profile_edit_work'])
-    ->name('employee.profile.teaching.edit')
-    ->middleware('web', 'employee');
-
-Route::get('personal/profile/{contact}/type/{type}/edit_education', [EmployeeController::class, 'profile_edit_education'])
-    ->name('employee.profile.teaching.edit.educ')
-    ->middleware('web', 'employee');
-
-Route::put('personal/profile/{contact}/type/{type}/edit_education', [ProfileController::class, 'update_education'])
-    ->name('employee.profile.teaching.update.education')
-    ->middleware('web', 'employee');
-
-Route::put('personal/profile/{contact}/type/{type}/edit_work', [ProfileController::class, 'update_work'])
-    ->name('employee.profile.teaching.update.work')
-    ->middleware('web', 'employee');
-
 Route::get('personal/leave', [LeaveController::class, 'index'])
     ->name('employee.leave')
     ->middleware('web', 'employee');
 
-Route::get('personal/scholarship', [ScholarshipController::class, 'index'])
-    ->name('employee.scholarship')
-    ->middleware('web', 'employee');
-
-Route::get('personal/scholarship/new', [ScholarshipController::class, 'create'])
-    ->name('employee.scholarship.create')
-    ->middleware('web', 'employee');
-
-Route::get('personal/scholarship/edit/{id}', [ScholarshipController::class, 'edit'])
-    ->name('employee.scholarship.edit')
-    ->middleware('web', 'employee');
-
-Route::get('personal/scholarship/form/{id}', [ScholarshipController::class, 'form'])
-    ->name('employee.scholarship.form')
-    ->middleware('web', 'employee');
-
-Route::put('personal/scholarship/update/{id}', [ScholarshipController::class, 'update'])
-    ->name('employee.scholarship.update')
-    ->middleware('web', 'employee');
-
-Route::post('personal/scholarship/store', [ScholarshipController::class, 'store'])
-    ->name('employee.scholarship.store')
-    ->middleware('web', 'employee');
-
-Route::delete('personal/scholarship/{id}/store', [ScholarshipController::class, 'destroy'])
-    ->name('employee.scholarship.destroy')
-    ->middleware('web', 'employee');
-
-Route::get('personal/scholarship/documents/{id}', [ScholarshipController::class, 'documents'])
-    ->name('employee.scholarship.documents')
-    ->middleware('web', 'employee');
-
-Route::put('personal/scholarship/store/documents', [ScholarshipController::class, 'store_documents'])
-    ->name('employee.scholarship.store.documents')
-    ->middleware('web', 'employee');
-
 Route::get('personal/inquiry', [InquiryController::class, 'index'])
     ->name('employee.inquiry')
-    ->middleware('web', 'employee');
-
-Route::get('personal/ipcr/opcr/{contact}', [IpcrOpcrController::class, 'index'])
-    ->name('employee.ipcr.index')
-    ->middleware('web', 'employee');
-
-Route::put('personal/ipcr/opcr/store', [IpcrOpcrController::class, 'store'])
-    ->name('employee.ipcr.store')
-    ->middleware('web', 'employee');
-
-Route::delete('personal/ipcr/opcr/delete/{id}', [IpcrOpcrController::class, 'destroy'])
-    ->name('employee.ipcr.delete')
-    ->middleware('web', 'employee');
-
-Route::get('personal/service/record/{contact}', [EmployeeController::class, 'service_record'])
-    ->name('employee.service.record')
-    ->middleware('web', 'employee');
-
-Route::get('personal/leaves/form/{leave}/view', [EmployeeController::class, 'formEmployee'])
-    ->name('leaves.form.employee')
-    ->middleware('web', 'employee');
-
-Route::get('personal/leaves/form/{leave}/view/new', [EmployeeController::class, 'formEmployeeNew'])
-    ->name('leaves.form.employee.new')
     ->middleware('web', 'employee');
 
 Route::put('personal/inquiry/{contact}', [InquiryController::class, 'store'])
@@ -645,18 +429,9 @@ Route::put('personal/inquiry/{id}/restore', [InquiryController::class, 'restore'
     ->name('employee.inquiry.restore')
     ->middleware('web', 'employee');
 
-Route::put('personal/inquiry/{id}/resolve', [InquiryController::class, 'resolve'])
-    ->name('employee.inquiry.resolve')
-    ->middleware('web', 'employee');
-
 Route::get('personal/leave/credits/{contact}', [EmployeeController::class, 'credit'])
     ->name('employee.credit')
     ->middleware('web', 'employee');
-
-Route::get('personal/leave/cto/credits/{contact}', [EmployeeController::class, 'cto_credit'])
-    ->name('cto.employee.credit')
-    ->middleware('web', 'employee');
-
 
 Route::post('employee/leave/store', [LeaveController::class, 'store'])
     ->name('employee.leave.store')

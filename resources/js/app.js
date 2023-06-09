@@ -6,11 +6,7 @@ import VueCryptojs from "vue-cryptojs";
 import VCalendar from "v-calendar";
 import { InertiaApp } from "@inertiajs/inertia-vue";
 import { InertiaProgress } from "@inertiajs/progress/src";
-import { Popper } from "popper-vue";
-import VTooltip from "v-tooltip";
-import "popper-vue/dist/popper-vue.css";
 
-Vue.component("Popper", Popper);
 Vue.config.productionTip = false;
 VueClipboard.config.autoSetContainer = true;
 Vue.mixin({ methods: { route: window.route } });
@@ -20,7 +16,6 @@ Vue.use(VueMeta);
 Vue.use(VueClipboard);
 Vue.use(VCalendar);
 Vue.use(VueCryptojs);
-Vue.use(VTooltip);
 
 InertiaProgress.init();
 

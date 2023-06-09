@@ -6,22 +6,13 @@
           <span class="text-blue-600">My Profile</span> /
           {{ employee.first_name }}
         </div>
-        <div class="flex">
-          <inertia-link
-            :href="route('employee.profile.pds', employee.id)"
-            class="mx-2 btn-indigo rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1"
-          >
-            <span>👁️ View</span>
-            <span class="hidden md:inline">PDS</span>
-          </inertia-link>
-          <button
-            @click="showPasswordModal"
-            class="btn-indigo rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1"
-          >
-            <span>✏️ Edit</span>
-            <span class="hidden md:inline">Password</span>
-          </button>
-        </div>
+        <button
+          @click="showPasswordModal"
+          class="btn-indigo rounded-lg transition duration-500 ease-in-out transform hover:-translate-y-1"
+        >
+          <span>✏️ Edit</span>
+          <span class="hidden md:inline">Password</span>
+        </button>
       </div>
       <div
         v-if="notices.length !== 0"
@@ -236,12 +227,6 @@
         :modal.sync="showDocument"
       ></document-add-modal>
 
-      <CharacterAndId
-        :references="references"
-        :governments="governments"
-        class="flex"
-      ></CharacterAndId>
-
       <password
         :showing="showPassword"
         :employee="contact"
@@ -269,7 +254,6 @@ import PersonalInformation from "@/Shared/PersonalInformation.vue";
 import FamilyBackground from "@/Shared/FamilyBackground.vue";
 import Childrens from "@/Shared/Childrens.vue";
 import DocumentAddModal from "@/Shared/Modals/DocumentAddModal.vue";
-import CharacterAndId from "@/Shared/CharacterAndId.vue";
 
 export default {
   metaInfo: { title: "Profile" },
@@ -291,7 +275,6 @@ export default {
     Childrens,
     DocumentAddModal,
     Password,
-    CharacterAndId,
   },
   props: {
     notices: Array,
@@ -309,10 +292,8 @@ export default {
     family: Object,
     childrens: Array,
     documents: Array,
-    governments: Array,
-    references: Array,
-    offices: Array,
   },
+
   remember: "form",
   data() {
     return {
@@ -333,11 +314,7 @@ export default {
     };
   },
   provide() {
-    return {
-      employeeId: this.contact,
-      familyObject: this.family,
-      offices: this.offices,
-    };
+    return { employeeId: this.contact, familyObject: this.family };
   },
   watch: {
     status(status) {
@@ -426,11 +403,6 @@ export default {
           this.$inertia.delete(this.route("document.destroy", id));
         }
       });
-    },
-    format(value) {
-      if (value) {
-        return moment(String(value)).format("MMMM D, YYYY");
-      }
     },
   },
 };

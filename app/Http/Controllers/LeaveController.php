@@ -11,7 +11,6 @@ use Inertia\Inertia;
 use App\Models\Notification;
 use App\Models\Leave;
 use App\Models\Credit;
-use App\Models\Contact;
 use App\Models\EmployeeSetting;
 use Carbon\Carbon;
 
@@ -44,12 +43,10 @@ class LeaveController extends Controller
     public function store(Leave $leave, EmployeeSetting $employee_setting) {
         $employee =  Auth::guard('employee')->user();
         $days = Request::input('number_of_working_days');
-        $manual = Request::input('manual');
         $hasSetting = $employee_setting->where('contact_id', $employee->id)->first();
 
-        $user = Contact::find(Request::input('contact_id'));
-
         if($employee) { 
+
             Request::validate([
                 'contact_id' => ['required'],
                 'leave_number' => ['required', 'max:50', 'min:4'],
@@ -63,11 +60,8 @@ class LeaveController extends Controller
                 'type_of_leave' => ['required', 'max:50', 'min:2'],
                 'vacation_leave_location' => ['nullable', 'max:50', 'min:4'],
                 'sick_leave_location' => ['nullable', 'max:50', 'min:4'],
-                'special_leave_benefits_for_women' => ['nullable', 'max:50', 'min:4'],
-                'study_leave_location' => ['nullable', 'max:50', 'min:4'],
-                'other_purpose' => ['nullable', 'max:50', 'min:4'],
-                'number_of_working_days' => ['required', 'max:50', 'min:1', 'regex:/^[0-9.]+$/'],
-                'start_of_inclusive_date' => $manual ? ['required', 'min:1'] : ['required', 'min:'.$days],
+                'number_of_working_days' => ['required', 'max:50', 'min:1'],
+                'start_of_inclusive_date' => ['required', 'min:'.$days],
                 'end_of_inclusive_date' => ['nullable', 'max:50', 'min:4'],
                 'commutation' => ['nullable', 'max:50', 'min:4'],
                 'officer_in_charge' => ['required', 'max:50', 'min:4'],	
@@ -77,7 +71,6 @@ class LeaveController extends Controller
 
             Leave::create([
                 'contact_id' => Request::input('contact_id'),
-                'user_id' => $user->user_id,
                 'leave_number' => Request::input('leave_number'),
                 'agency' => ucwords(Request::input('agency')),
                 'last_name' => ucwords(Request::input('last_name')),
@@ -89,9 +82,6 @@ class LeaveController extends Controller
                 'type_of_leave' => Request::input('type_of_leave'),
                 'vacation_leave_location' => Request::input('vacation_leave_location'),
                 'sick_leave_location' => Request::input('sick_leave_location'),
-                'special_leave_benefits_for_women' => Request::input('special_leave_benefits_for_women'),
-                'study_leave_location' => Request::input('study_leave_location'),
-                'other_purpose' => Request::input('other_purpose'),
                 'number_of_working_days' => Request::input('number_of_working_days'),
                 'start_of_inclusive_date' => Request::input('start_of_inclusive_date'),
                 'end_of_inclusive_date' => Request::input('end_of_inclusive_date'),

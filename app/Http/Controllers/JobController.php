@@ -56,15 +56,8 @@ class JobController extends Controller
             'experience' => ['nullable', 'max:255', 'min:2'],
             'training' => ['nullable', 'max:255', 'min:2'],
             'eligibility' => ['nullable', 'max:255', 'min:2'],
-            'salary_grade' => ['required', 'max:255', 'min:1', 'regex:/^[0-9+]+$/'],
-            'monthly_salary' => ['required', 'max:255', 'min:2', 'regex:/^[0-9+]+$/'],
-            'deadline_at' => ['required'],
+            'salary_grade' => ['required', 'max:255', 'min:2', 'regex:/^[0-9+]+$/'],
             'job_description' => ['required', 'min:6'],
-            'preferred_qualification' => ['required', 'min:2'],
-            'core_competencies' => ['required'],
-            'organizational_competencies' => ['required'],
-            'technical_competencies' => ['required'],
-            'document' => ['required', 'mimes:jpeg,jpg,png,pdf', 'max:20000']
         ]);
 
         $job_link = strtolower(str_replace(' ', '-', Request::input('position'))).'-'.Str::random(5);
@@ -78,15 +71,8 @@ class JobController extends Controller
             'training' => Request::input('training'),
             'eligibility' => Request::input('eligibility'),
             'salary_grade' => Request::input('salary_grade'),
-            'monthly_salary' => Request::input('monthly_salary'),
             'job_description' => Request::input('job_description'),
-            'preferred_qualification' => Request::input('preferred_qualification'),
-            'core_competencies' => Request::input('core_competencies'),
-            'organizational_competencies' => Request::input('organizational_competencies'),
-            'technical_competencies' => Request::input('technical_competencies'),
-            'deadline_at' => Request::input('deadline_at'),
             'job_link' => $job_link,
-            'document' =>  Request::file('document') ? Request::file('document')->store('jobs', 'public') : null,
         ]);
 
         return Redirect::back()->with('success', 'Job added.');
@@ -133,13 +119,7 @@ class JobController extends Controller
                 'training' => ['nullable', 'max:255', 'min:2'],
                 'eligibility' => ['nullable', 'max:255', 'min:2'],
                 'salary_grade' => ['required', 'max:255', 'min:2', 'regex:/^[0-9+]+$/'],
-                'monthly_salary' => ['required', 'max:255', 'min:2', 'regex:/^[0-9+]+$/'],
-                'deadline_at' => ['required'],
                 'job_description' => ['required', 'min:6'],
-                'preferred_qualification' => ['required', 'min:2'],
-                'core_competencies' => ['required'],
-                'organizational_competencies' => ['required'],
-                'technical_competencies' => ['required'],   
             ])
         );
 

@@ -19,11 +19,6 @@ class Contact extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->belongsTo(Organization::class);
     }
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
     public function backgrounds()
     {
         return $this->hasMany(Background::class);
@@ -99,64 +94,9 @@ class Contact extends Model implements AuthenticatableContract, AuthorizableCont
         return $this->hasMany(Credit::class);
     }
 
-    public function service_record()
-    {
-        return $this->hasMany(ServiceRecord::class);
-    }
-
-    public function reference()
-    {
-        return $this->hasMany(Reference::class);
-    }
-
-    public function government()
-    {
-        return $this->hasMany(GovernmentId::class);
-    }
-
-    public function ctocredit()
-    {
-        return $this->hasMany(CtoCredit::class);
-    }
-
     public function inquiry()
     {
         return $this->hasMany(Inquiry::class);
-    }
-
-    public function ipcr()
-    {
-        return $this->hasMany(IpcrOpcr::class);
-    }
-
-    public function offices()
-    {
-        return $this->hasMany(Office::class);
-    }
-
-    public function profiles()
-    {
-        return $this->hasMany(Profile::class);
-    }
-
-    public function psipop()
-    {
-        return $this->hasMany(Psipop::class);
-    }
-
-    public function service_records()
-    {
-        return $this->hasMany(ServiceRecord::class);
-    }
-
-    public function scholarships()
-    {
-        return $this->hasMany(Scholarship::class);
-    }
-
-    public function office()
-    {
-        return $this->belongsTo(Office::class);
     }
 
     public function getNameAttribute()

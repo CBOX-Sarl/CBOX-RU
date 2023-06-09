@@ -30,9 +30,7 @@
                 <form @submit.prevent="save" class="w-full max-w-lg pr-4 pt-5">
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Option <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Option</label>
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
@@ -58,9 +56,7 @@
                   </div>
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Leave Type <span class="text-red-600">*</span></label
-                      >
+                      <label class="form-label font-bold">Leave Type</label>
                       <input
                         type="radio"
                         class="w-3 h-3 transition duration-300 rounded focus:ring-2 focus:ring-offset-0 focus:outline-none focus:ring-blue-200"
@@ -90,8 +86,7 @@
                   <div class="flex flex-wrap -mx-3 mb-6">
                     <div class="w-full px-3">
                       <label class="form-label font-bold"
-                        >Leave Credit Amount
-                        <span class="text-red-600">*</span></label
+                        >Leave Credit Amount</label
                       >
                       <input
                         autofocus="true"
@@ -104,48 +99,6 @@
                         class="form-error"
                       >
                         {{ $page.errors.leave_credit }}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div
-                    v-if="form.option === 'decrease'"
-                    class="flex flex-wrap -mx-3 mb-6"
-                  >
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Particulars <span class="text-red-600">*</span></label
-                      >
-                      <input
-                        autofocus="true"
-                        class="form-input block w-full"
-                        placeholder="Enter the particular"
-                        v-model="form.particulars"
-                      />
-                      <div
-                        v-if="$page.errors.particulars !== null"
-                        class="form-error"
-                      >
-                        {{ $page.errors.particulars }}
-                      </div>
-                    </div>
-                  </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <label class="form-label font-bold"
-                        >Remarks <span class="text-red-600">*</span></label
-                      >
-                      <input
-                        autofocus="true"
-                        class="form-input block w-full"
-                        placeholder="Enter remarks"
-                        v-model="form.remarks"
-                      />
-                      <div
-                        v-if="$page.errors.remarks !== null"
-                        class="form-error"
-                      >
-                        {{ $page.errors.remarks }}
                       </div>
                     </div>
                   </div>
@@ -203,8 +156,6 @@ export default {
         option: null,
         type: null,
         leave_credit: null,
-        particulars: null,
-        remarks: null,
       },
     };
   },

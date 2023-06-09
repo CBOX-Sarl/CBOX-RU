@@ -80,38 +80,6 @@
                       </div>
                     </div>
                   </div>
-                  <div class="flex flex-wrap -mx-3 mb-6">
-                    <div class="w-full px-3">
-                      <input
-                        id="file"
-                        type="file"
-                        accept="pdf/*"
-                        class="hidden"
-                        ref="file"
-                        @change="change"
-                      />
-                      <div
-                        @click="browse()"
-                        class="border-4 border-dashed bg-gray-200 hover:bg-gray-400 cursor-pointer"
-                      >
-                        <div
-                          v-if="!file_name"
-                          class="my-6 mx-auto text-center font-normal hover:font-semibold"
-                        >
-                          Attach document
-                        </div>
-                        <div
-                          v-else
-                          class="my-6 mx-auto text-center font-normal hover:font-semibold"
-                        >
-                          {{ file_name }}
-                        </div>
-                      </div>
-                      <div v-if="$page.errors.file !== null" class="form-error">
-                        {{ $page.errors.file }}
-                      </div>
-                    </div>
-                  </div>
                 </form>
               </div>
             </div>
@@ -164,27 +132,16 @@ export default {
   data() {
     return {
       sending: false,
-      file_name: null,
       form: {
         notice_type: null,
         notice_subject: null,
         notice_description: null,
-        file: null,
-        file_name: null,
       },
     };
   },
   methods: {
     save() {
-      const data = new FormData();
-      data.append("file_name", this.file_name || "");
-      data.append("notice_type", this.form.notice_type || "");
-      data.append("notice_subject", this.form.notice_subject || "");
-      data.append("notice_description", this.form.notice_description || "");
-      data.append("file", this.form.file || "");
-      data.append("_method", "PUT");
-
-      this.$inertia.post(this.route("notices.store"), data, {
+      this.$inertia.post(this.route("notices.store"), this.form, {
         onStart: () => (this.sending = true),
         onFinish: () => (this.sending = false),
       });
@@ -195,15 +152,6 @@ export default {
     },
     reset() {
       this.form = mapValues(this.form, () => null);
-    },
-    browse() {
-      this.$refs.file.click();
-    },
-    change(event) {
-      var data = event.target.files[0];
-      this.form.file = event.target.files[0];
-      this.file_name = data.name;
-      this.$emit("input", this.form.file);
     },
   },
 };
